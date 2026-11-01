@@ -1,0 +1,99 @@
+{
+  "id": "q-030",
+  "slug": "clone-graph",
+  "title": "Clone Graph",
+  "difficulty": "medium",
+  "tags": ["blind-75", "graph", "dfs", "bfs", "hash-table"],
+  "description": "You are given a reference to one node of a **connected, undirected graph**. Each node has an integer `val` and a list of `neighbors`.\n\nReturn a **deep copy** (clone) of the whole graph: every node must be a brand-new object, and the copy must have exactly the same structure.\n\nIn the test data a graph is written as an adjacency list: the node with `val = i` is at index `i - 1` and the list holds the `val`s of its neighbors. An empty list means `null`.",
+  "examples": [
+    {
+      "input": "adjList = [[2,4],[1,3],[2,4],[1,3]]",
+      "output": "[[2,4],[1,3],[2,4],[1,3]]",
+      "explanation": "Four nodes arranged in a square. Node 1 neighbors nodes 2 and 4, and so on."
+    },
+    {
+      "input": "adjList = [[]]",
+      "output": "[[]]",
+      "explanation": "A single node with no neighbors."
+    },
+    {
+      "input": "adjList = []",
+      "output": "[]",
+      "explanation": "An empty graph (the node is null)."
+    }
+  ],
+  "constraints": [
+    "0 <= number of nodes <= 100",
+    "1 <= Node.val <= 100, and every val is unique",
+    "There are no repeated edges and no self-loops.",
+    "The graph is connected."
+  ],
+  "hints": [
+    "Use a map from original node to its clone so each node is copied once.",
+    "Copy a node, then recursively (or with a queue) copy its neighbors and wire up the clones."
+  ],
+  "signature": {
+    "params": ["GraphNode"],
+    "returns": "GraphNode",
+    "requiresCopy": true
+  },
+  "testCases": [
+    {
+      "input": [
+        [
+          [2, 4],
+          [1, 3],
+          [2, 4],
+          [1, 3]
+        ]
+      ],
+      "expected": [
+        [2, 4],
+        [1, 3],
+        [2, 4],
+        [1, 3]
+      ]
+    },
+    {
+      "input": [[[]]],
+      "expected": [[]]
+    },
+    {
+      "input": [[]],
+      "expected": [],
+      "hidden": true
+    },
+    {
+      "input": [[[2], [1]]],
+      "expected": [[2], [1]],
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          [2, 3],
+          [1, 3],
+          [1, 2]
+        ]
+      ],
+      "expected": [
+        [2, 3],
+        [1, 3],
+        [1, 2]
+      ],
+      "hidden": true
+    },
+    {
+      "input": [[[2], [1, 3], [2]]],
+      "expected": [[2], [1, 3], [2]],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class GraphNode {\n  val: number\n  neighbors: GraphNode[]\n  constructor(val?: number, neighbors?: GraphNode[])\n}\n\nfunction cloneGraph(node: GraphNode | null): GraphNode | null {\n  \n}\n",
+      "functionName": "cloneGraph",
+      "solution": "declare class GraphNode {\n  val: number\n  neighbors: GraphNode[]\n  constructor(val?: number, neighbors?: GraphNode[])\n}\n\nfunction cloneGraph(node: GraphNode | null): GraphNode | null {\n  if (!node) return null\n  const copies = new Map<GraphNode, GraphNode>()\n  function copy(n: GraphNode): GraphNode {\n    const existing = copies.get(n)\n    if (existing) return existing\n    const clone = new GraphNode(n.val)\n    copies.set(n, clone)\n    for (const nb of n.neighbors) clone.neighbors.push(copy(nb))\n    return clone\n  }\n  return copy(node)\n}\n"
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "id": "q-031",
+  "slug": "course-schedule",
+  "title": "Course Schedule",
+  "difficulty": "medium",
+  "tags": ["blind-75", "graph", "dfs", "bfs", "topological-sort"],
+  "description": "There are `numCourses` courses labeled `0` to `numCourses - 1`. Each entry `[a, b]` in `prerequisites` means you must finish course `b` **before** you can take course `a`.\n\nReturn `true` if it is possible to finish all courses, otherwise `false`.",
+  "examples": [
+    {
+      "input": "numCourses = 2, prerequisites = [[1,0]]",
+      "output": "true",
+      "explanation": "Take course 0, then course 1."
+    },
+    {
+      "input": "numCourses = 2, prerequisites = [[1,0],[0,1]]",
+      "output": "false",
+      "explanation": "Each course requires the other, so neither can start."
+    }
+  ],
+  "constraints": [
+    "1 <= numCourses <= 2000",
+    "0 <= prerequisites.length <= 5000",
+    "All prerequisite pairs are distinct and a != b."
+  ],
+  "hints": [
+    "Model courses as nodes and prerequisites as directed edges. Finishing everything is possible exactly when the graph has no cycle.",
+    "Kahn's algorithm: repeatedly take a course with no remaining prerequisites. If you cannot take all courses, there is a cycle."
+  ],
+  "testCases": [
+    {
+      "input": [2, [[1, 0]]],
+      "expected": true
+    },
+    {
+      "input": [
+        2,
+        [
+          [1, 0],
+          [0, 1]
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "input": [1, []],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [
+        3,
+        [
+          [1, 0],
+          [2, 1]
+        ]
+      ],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [
+        3,
+        [
+          [0, 1],
+          [1, 2],
+          [2, 0]
+        ]
+      ],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": [
+        4,
+        [
+          [1, 0],
+          [2, 0],
+          [3, 1],
+          [3, 2]
+        ]
+      ],
+      "expected": true,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function canFinish(numCourses: number, prerequisites: number[][]): boolean {\n  \n}\n",
+      "functionName": "canFinish",
+      "solution": "function canFinish(numCourses: number, prerequisites: number[][]): boolean {\n  const indegree = new Array<number>(numCourses).fill(0)\n  const next: number[][] = Array.from({ length: numCourses }, () => [])\n  for (const [a, b] of prerequisites) {\n    next[b].push(a)\n    indegree[a]++\n  }\n  const queue: number[] = []\n  indegree.forEach((d, i) => d === 0 && queue.push(i))\n  let taken = 0\n  while (queue.length) {\n    const c = queue.pop()!\n    taken++\n    for (const n of next[c]) if (--indegree[n] === 0) queue.push(n)\n  }\n  return taken === numCourses\n}\n"
+    }
+  }
+}

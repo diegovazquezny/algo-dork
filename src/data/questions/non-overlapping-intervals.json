@@ -1,0 +1,101 @@
+{
+  "id": "q-040",
+  "slug": "non-overlapping-intervals",
+  "title": "Non-overlapping Intervals",
+  "difficulty": "medium",
+  "tags": ["blind-75", "interval", "greedy", "sorting"],
+  "description": "Given an array of `intervals` where `intervals[i] = [start, end]`, return the **minimum number of intervals you must remove** so that the remaining intervals do not overlap.\n\nIntervals that only touch at an endpoint, like `[1,2]` and `[2,3]`, do **not** overlap.",
+  "examples": [
+    {
+      "input": "intervals = [[1,2],[2,3],[3,4],[1,3]]",
+      "output": "1",
+      "explanation": "Remove [1,3] and the rest do not overlap."
+    },
+    {
+      "input": "intervals = [[1,2],[1,2],[1,2]]",
+      "output": "2"
+    },
+    {
+      "input": "intervals = [[1,2],[2,3]]",
+      "output": "0"
+    }
+  ],
+  "constraints": [
+    "1 <= intervals.length <= 10^5",
+    "-5 * 10^4 <= start < end <= 5 * 10^4"
+  ],
+  "hints": [
+    "Equivalently, keep as many intervals as possible.",
+    "Greedy: sort by end time and always keep the interval that ends earliest, skipping any that starts before the last kept end."
+  ],
+  "testCases": [
+    {
+      "input": [
+        [
+          [1, 2],
+          [2, 3],
+          [3, 4],
+          [1, 3]
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "input": [
+        [
+          [1, 2],
+          [1, 2],
+          [1, 2]
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "input": [
+        [
+          [1, 2],
+          [2, 3]
+        ]
+      ],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          [1, 100],
+          [11, 22],
+          [1, 11],
+          [2, 12]
+        ]
+      ],
+      "expected": 2,
+      "hidden": true
+    },
+    {
+      "input": [[[1, 2]]],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          [0, 2],
+          [1, 3],
+          [2, 4],
+          [3, 5],
+          [4, 6]
+        ]
+      ],
+      "expected": 2,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function eraseOverlapIntervals(intervals: number[][]): number {\n  \n}\n",
+      "functionName": "eraseOverlapIntervals",
+      "solution": "function eraseOverlapIntervals(intervals: number[][]): number {\n  const sorted = [...intervals].sort((a, b) => a[1] - b[1])\n  let end = -Infinity\n  let kept = 0\n  for (const [s, e] of sorted) {\n    if (s >= end) {\n      kept++\n      end = e\n    }\n  }\n  return intervals.length - kept\n}\n"
+    }
+  }
+}

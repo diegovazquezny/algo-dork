@@ -1,0 +1,71 @@
+{
+  "id": "q-035",
+  "slug": "alien-dictionary",
+  "title": "Alien Dictionary",
+  "difficulty": "hard",
+  "tags": ["blind-75", "graph", "topological-sort", "string"],
+  "description": "An alien language uses the lowercase English letters, but in an unknown alphabetical order. You are given a list of `words` that are **sorted lexicographically according to that alien order**.\n\nDeduce an ordering of the letters that appears in `words` and return it as a string. Include every distinct letter that occurs in the words.\n\n- If the list cannot possibly be sorted under any ordering (a contradiction, or a longer word that comes before its own prefix), return `\"\"`.\n- Several orderings may be consistent with the words. To make the answer unique, return the one that is **smallest in normal alphabetical order** (compare the candidate strings letter by letter).",
+  "examples": [
+    {
+      "input": "words = [\"wrt\",\"wrf\",\"er\",\"ett\",\"rftt\"]",
+      "output": "\"wertf\"",
+      "explanation": "t < f from \"wrt\" vs \"wrf\", w < e, r < t, e < r."
+    },
+    {
+      "input": "words = [\"z\",\"x\",\"z\"]",
+      "output": "\"\"",
+      "explanation": "z < x and x < z contradict each other."
+    },
+    {
+      "input": "words = [\"abc\",\"ab\"]",
+      "output": "\"\"",
+      "explanation": "A word cannot come before its own prefix."
+    }
+  ],
+  "constraints": [
+    "1 <= words.length <= 100",
+    "1 <= words[i].length <= 100",
+    "words[i] consists of lowercase English letters."
+  ],
+  "hints": [
+    "Compare each pair of adjacent words: the first position where they differ gives one rule \"letter A comes before letter B\".",
+    "Build a directed graph from those rules and topologically sort it. Use the alphabetically smallest available letter at each step for a unique answer; a cycle means \"\"."
+  ],
+  "testCases": [
+    {
+      "input": [["wrt", "wrf", "er", "ett", "rftt"]],
+      "expected": "wertf"
+    },
+    {
+      "input": [["z", "x"]],
+      "expected": "zx"
+    },
+    {
+      "input": [["z", "x", "z"]],
+      "expected": "",
+      "hidden": true
+    },
+    {
+      "input": [["abc", "ab"]],
+      "expected": "",
+      "hidden": true
+    },
+    {
+      "input": [["a"]],
+      "expected": "a",
+      "hidden": true
+    },
+    {
+      "input": [["ab", "adc"]],
+      "expected": "abcd",
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function alienOrder(words: string[]): string {\n  \n}\n",
+      "functionName": "alienOrder",
+      "solution": "function alienOrder(words: string[]): string {\n  const next = new Map<string, Set<string>>()\n  const indegree = new Map<string, number>()\n  for (const w of words) for (const ch of w) {\n    if (!next.has(ch)) next.set(ch, new Set())\n    if (!indegree.has(ch)) indegree.set(ch, 0)\n  }\n  for (let i = 0; i + 1 < words.length; i++) {\n    const a = words[i]\n    const b = words[i + 1]\n    if (a.length > b.length && a.startsWith(b)) return ''\n    for (let j = 0; j < Math.min(a.length, b.length); j++) {\n      if (a[j] !== b[j]) {\n        if (!next.get(a[j])!.has(b[j])) {\n          next.get(a[j])!.add(b[j])\n          indegree.set(b[j], indegree.get(b[j])! + 1)\n        }\n        break\n      }\n    }\n  }\n  const ready = [...indegree].filter(([, d]) => d === 0).map(([ch]) => ch).sort()\n  let order = ''\n  while (ready.length) {\n    const ch = ready.shift()!\n    order += ch\n    for (const n of next.get(ch)!) {\n      indegree.set(n, indegree.get(n)! - 1)\n      if (indegree.get(n) === 0) {\n        ready.push(n)\n        ready.sort()\n      }\n    }\n  }\n  return order.length === indegree.size ? order : ''\n}\n"
+    }
+  }
+}

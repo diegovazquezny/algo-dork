@@ -1,0 +1,86 @@
+{
+  "id": "q-033",
+  "slug": "number-of-islands",
+  "title": "Number of Islands",
+  "difficulty": "medium",
+  "tags": ["blind-75", "graph", "dfs", "bfs", "matrix", "union-find"],
+  "description": "Given an `m x n` grid of characters where `\"1\"` is land and `\"0\"` is water, return the **number of islands**.\n\nAn island is a group of land cells connected horizontally or vertically. You may assume everything outside the grid is water.",
+  "examples": [
+    {
+      "input": "grid = [[\"1\",\"1\",\"0\",\"0\",\"0\"],[\"1\",\"1\",\"0\",\"0\",\"0\"],[\"0\",\"0\",\"1\",\"0\",\"0\"],[\"0\",\"0\",\"0\",\"1\",\"1\"]]",
+      "output": "3"
+    },
+    {
+      "input": "grid = [[\"1\",\"1\",\"1\"],[\"0\",\"1\",\"0\"],[\"1\",\"1\",\"1\"]]",
+      "output": "1"
+    }
+  ],
+  "constraints": ["1 <= m, n <= 300", "grid[i][j] is \"0\" or \"1\"."],
+  "hints": [
+    "Scan every cell. When you find unvisited land, count one island and flood-fill it so you never count it again.",
+    "You can flood-fill with DFS, BFS or union-find."
+  ],
+  "testCases": [
+    {
+      "input": [
+        [
+          ["1", "1", "0", "0", "0"],
+          ["1", "1", "0", "0", "0"],
+          ["0", "0", "1", "0", "0"],
+          ["0", "0", "0", "1", "1"]
+        ]
+      ],
+      "expected": 3
+    },
+    {
+      "input": [
+        [
+          ["1", "1", "1"],
+          ["0", "1", "0"],
+          ["1", "1", "1"]
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "input": [[["1"]]],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [[["0"]]],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          ["1", "0", "1"],
+          ["0", "1", "0"],
+          ["1", "0", "1"]
+        ]
+      ],
+      "expected": 5,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          ["1", "1", "1", "1", "0"],
+          ["1", "1", "0", "1", "0"],
+          ["1", "1", "0", "0", "0"],
+          ["0", "0", "0", "0", "0"]
+        ]
+      ],
+      "expected": 1,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function numIslands(grid: string[][]): number {\n  \n}\n",
+      "functionName": "numIslands",
+      "solution": "function numIslands(grid: string[][]): number {\n  const m = grid.length\n  const n = grid[0].length\n  let count = 0\n  for (let r = 0; r < m; r++) {\n    for (let c = 0; c < n; c++) {\n      if (grid[r][c] !== '1') continue\n      count++\n      const stack = [[r, c]]\n      grid[r][c] = '0'\n      while (stack.length) {\n        const [y, x] = stack.pop()!\n        for (const [dy, dx] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {\n          const ny = y + dy\n          const nx = x + dx\n          if (ny >= 0 && nx >= 0 && ny < m && nx < n && grid[ny][nx] === '1') {\n            grid[ny][nx] = '0'\n            stack.push([ny, nx])\n          }\n        }\n      }\n    }\n  }\n  return count\n}\n"
+    }
+  }
+}

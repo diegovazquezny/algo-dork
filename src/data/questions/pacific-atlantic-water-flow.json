@@ -1,0 +1,117 @@
+{
+  "id": "q-032",
+  "slug": "pacific-atlantic-water-flow",
+  "title": "Pacific Atlantic Water Flow",
+  "difficulty": "medium",
+  "tags": ["blind-75", "graph", "dfs", "bfs", "matrix"],
+  "description": "An `m x n` grid `heights` gives the height of each cell of an island. The **Pacific** ocean touches the island's top and left edges; the **Atlantic** ocean touches its bottom and right edges.\n\nRain water can flow from a cell to a neighboring cell (up, down, left, right) whose height is **less than or equal** to its own, and water on any border cell can flow into the adjacent ocean.\n\nReturn every cell `[row, col]` from which water can reach **both** oceans, in any order.",
+  "examples": [
+    {
+      "input": "heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]",
+      "output": "[[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]"
+    },
+    {
+      "input": "heights = [[1]]",
+      "output": "[[0,0]]",
+      "explanation": "The only cell touches both oceans."
+    }
+  ],
+  "constraints": ["1 <= m, n <= 200", "0 <= heights[r][c] <= 10^5"],
+  "hints": [
+    "Instead of starting from every cell, search backwards from each ocean: from the ocean edge, move to neighbors that are equal or higher.",
+    "The answer is the intersection of the cells reached from the Pacific and from the Atlantic."
+  ],
+  "comparison": "unordered",
+  "testCases": [
+    {
+      "input": [
+        [
+          [1, 2, 2, 3, 5],
+          [3, 2, 3, 4, 4],
+          [2, 4, 5, 3, 1],
+          [6, 7, 1, 4, 5],
+          [5, 1, 1, 2, 4]
+        ]
+      ],
+      "expected": [
+        [0, 4],
+        [1, 3],
+        [1, 4],
+        [2, 2],
+        [3, 0],
+        [3, 1],
+        [4, 0]
+      ]
+    },
+    {
+      "input": [[[1]]],
+      "expected": [[0, 0]]
+    },
+    {
+      "input": [
+        [
+          [1, 1],
+          [1, 1]
+        ]
+      ],
+      "expected": [
+        [0, 0],
+        [0, 1],
+        [1, 0],
+        [1, 1]
+      ],
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          [2, 1],
+          [1, 2]
+        ]
+      ],
+      "expected": [
+        [0, 0],
+        [0, 1],
+        [1, 0],
+        [1, 1]
+      ],
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          [3, 3, 3],
+          [3, 1, 3],
+          [0, 2, 4]
+        ]
+      ],
+      "expected": [
+        [0, 0],
+        [0, 1],
+        [0, 2],
+        [1, 0],
+        [1, 2],
+        [2, 0],
+        [2, 1],
+        [2, 2]
+      ],
+      "hidden": true
+    },
+    {
+      "input": [[[1, 2, 3]]],
+      "expected": [
+        [0, 0],
+        [0, 1],
+        [0, 2]
+      ],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function pacificAtlantic(heights: number[][]): number[][] {\n  \n}\n",
+      "functionName": "pacificAtlantic",
+      "solution": "function pacificAtlantic(heights: number[][]): number[][] {\n  const m = heights.length\n  const n = heights[0].length\n  const flood = (starts: number[][]) => {\n    const seen = Array.from({ length: m }, () => new Array<boolean>(n).fill(false))\n    const stack = [...starts]\n    for (const [r, c] of starts) seen[r][c] = true\n    while (stack.length) {\n      const [r, c] = stack.pop()!\n      for (const [dr, dc] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {\n        const nr = r + dr\n        const nc = c + dc\n        if (nr < 0 || nc < 0 || nr >= m || nc >= n || seen[nr][nc]) continue\n        if (heights[nr][nc] < heights[r][c]) continue\n        seen[nr][nc] = true\n        stack.push([nr, nc])\n      }\n    }\n    return seen\n  }\n  const pac: number[][] = []\n  const atl: number[][] = []\n  for (let r = 0; r < m; r++) { pac.push([r, 0]); atl.push([r, n - 1]) }\n  for (let c = 0; c < n; c++) { pac.push([0, c]); atl.push([m - 1, c]) }\n  const p = flood(pac)\n  const a = flood(atl)\n  const result: number[][] = []\n  for (let r = 0; r < m; r++) for (let c = 0; c < n; c++) if (p[r][c] && a[r][c]) result.push([r, c])\n  return result\n}\n"
+    }
+  }
+}

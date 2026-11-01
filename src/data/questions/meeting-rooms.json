@@ -1,0 +1,83 @@
+{
+  "id": "q-041",
+  "slug": "meeting-rooms",
+  "title": "Meeting Rooms",
+  "difficulty": "easy",
+  "tags": ["blind-75", "interval", "sorting"],
+  "description": "Given an array of meeting time intervals `intervals`, where `intervals[i] = [start, end]` means a meeting runs from `start` up to (but not including) `end`, determine whether one person can **attend all of the meetings**.\n\nTwo meetings conflict if they overlap; one that ends exactly when another starts does not conflict.",
+  "examples": [
+    {
+      "input": "intervals = [[0,30],[5,10],[15,20]]",
+      "output": "false",
+      "explanation": "[0,30] overlaps both of the others."
+    },
+    {
+      "input": "intervals = [[7,10],[2,4]]",
+      "output": "true"
+    }
+  ],
+  "constraints": ["0 <= intervals.length <= 10^4", "0 <= start < end <= 10^6"],
+  "hints": [
+    "Sort the meetings by start time.",
+    "After sorting, you only need to compare each meeting with the one before it."
+  ],
+  "testCases": [
+    {
+      "input": [
+        [
+          [0, 30],
+          [5, 10],
+          [15, 20]
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "input": [
+        [
+          [7, 10],
+          [2, 4]
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "input": [[]],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          [1, 2],
+          [2, 3]
+        ]
+      ],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          [1, 5],
+          [5, 6],
+          [4, 5]
+        ]
+      ],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": [[[3, 4]]],
+      "expected": true,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function canAttendMeetings(intervals: number[][]): boolean {\n  \n}\n",
+      "functionName": "canAttendMeetings",
+      "solution": "function canAttendMeetings(intervals: number[][]): boolean {\n  const sorted = [...intervals].sort((a, b) => a[0] - b[0])\n  for (let i = 1; i < sorted.length; i++) {\n    if (sorted[i][0] < sorted[i - 1][1]) return false\n  }\n  return true\n}\n"
+    }
+  }
+}
