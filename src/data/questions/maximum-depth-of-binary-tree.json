@@ -1,0 +1,64 @@
+{
+  "id": "q-062",
+  "slug": "maximum-depth-of-binary-tree",
+  "title": "Maximum Depth of Binary Tree",
+  "difficulty": "easy",
+  "tags": ["blind-75", "tree", "dfs", "bfs"],
+  "description": "Given the `root` of a binary tree, return its **maximum depth**: the number of nodes along the longest path from the root down to the farthest leaf.\n\nIn the test data a tree is written as a level-order array where `null` marks a missing child, so `[3,9,20,null,null,15,7]` is a tree with root 3, children 9 and 20, and 20's children 15 and 7. `[]` is an empty tree.",
+  "examples": [
+    {
+      "input": "root = [3,9,20,null,null,15,7]",
+      "output": "3"
+    },
+    {
+      "input": "root = [1,null,2]",
+      "output": "2"
+    }
+  ],
+  "constraints": ["0 <= number of nodes <= 10^4", "-100 <= Node.val <= 100"],
+  "hints": [
+    "The depth of a tree is 1 + the larger depth of its two subtrees.",
+    "An empty tree has depth 0. You can also count levels with a BFS."
+  ],
+  "signature": {
+    "params": ["TreeNode"],
+    "returns": "json"
+  },
+  "testCases": [
+    {
+      "input": [[3, 9, 20, null, null, 15, 7]],
+      "expected": 3
+    },
+    {
+      "input": [[1, null, 2]],
+      "expected": 2
+    },
+    {
+      "input": [[]],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [[1]],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [[1, 2, 3, 4, null, null, 5, 6]],
+      "expected": 4,
+      "hidden": true
+    },
+    {
+      "input": [[1, null, 2, null, 3, null, 4]],
+      "expected": 4,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction maxDepth(root: TreeNode | null): number {\n  \n}\n",
+      "functionName": "maxDepth",
+      "solution": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction maxDepth(root: TreeNode | null): number {\n  if (!root) return 0\n  return 1 + Math.max(maxDepth(root.left), maxDepth(root.right))\n}\n"
+    }
+  }
+}

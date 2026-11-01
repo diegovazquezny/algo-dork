@@ -1,0 +1,68 @@
+{
+  "id": "q-066",
+  "slug": "binary-tree-level-order-traversal",
+  "title": "Binary Tree Level Order Traversal",
+  "difficulty": "medium",
+  "tags": ["blind-75", "tree", "bfs"],
+  "description": "Given the `root` of a binary tree, return its **level order traversal**: the node values grouped by depth, from the root level downward, and from left to right within each level.",
+  "examples": [
+    {
+      "input": "root = [3,9,20,null,null,15,7]",
+      "output": "[[3],[9,20],[15,7]]"
+    },
+    {
+      "input": "root = [1]",
+      "output": "[[1]]"
+    },
+    {
+      "input": "root = []",
+      "output": "[]"
+    }
+  ],
+  "constraints": ["0 <= number of nodes <= 2000", "-1000 <= Node.val <= 1000"],
+  "hints": [
+    "Use a queue. Process it one level at a time by first noting how many nodes the queue holds.",
+    "Push each node's children after reading its value."
+  ],
+  "signature": {
+    "params": ["TreeNode"],
+    "returns": "json"
+  },
+  "testCases": [
+    {
+      "input": [[3, 9, 20, null, null, 15, 7]],
+      "expected": [[3], [9, 20], [15, 7]]
+    },
+    {
+      "input": [[1]],
+      "expected": [[1]]
+    },
+    {
+      "input": [[]],
+      "expected": [],
+      "hidden": true
+    },
+    {
+      "input": [[1, 2, 3, 4, 5]],
+      "expected": [[1], [2, 3], [4, 5]],
+      "hidden": true
+    },
+    {
+      "input": [[1, null, 2, null, 3]],
+      "expected": [[1], [2], [3]],
+      "hidden": true
+    },
+    {
+      "input": [[0, 2, 4, 1, null, 3, -1]],
+      "expected": [[0], [2, 4], [1, 3, -1]],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction levelOrder(root: TreeNode | null): number[][] {\n  \n}\n",
+      "functionName": "levelOrder",
+      "solution": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction levelOrder(root: TreeNode | null): number[][] {\n  const result: number[][] = []\n  let level: TreeNode[] = root ? [root] : []\n  while (level.length) {\n    result.push(level.map((n) => n.val))\n    const next: TreeNode[] = []\n    for (const n of level) {\n      if (n.left) next.push(n.left)\n      if (n.right) next.push(n.right)\n    }\n    level = next\n  }\n  return result\n}\n"
+    }
+  }
+}

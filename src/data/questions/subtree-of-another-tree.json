@@ -1,0 +1,78 @@
+{
+  "id": "q-068",
+  "slug": "subtree-of-another-tree",
+  "title": "Subtree of Another Tree",
+  "difficulty": "easy",
+  "tags": ["blind-75", "tree", "dfs"],
+  "description": "Given the roots of two binary trees `root` and `subRoot`, return `true` if `subRoot` appears as a **subtree** of `root`.\n\nA subtree is a node of `root` together with **all** of its descendants, so it must match `subRoot` exactly in both shape and values.",
+  "examples": [
+    {
+      "input": "root = [3,4,5,1,2], subRoot = [4,1,2]",
+      "output": "true"
+    },
+    {
+      "input": "root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]",
+      "output": "false",
+      "explanation": "The node 2 has an extra child 0 in root, so the subtrees differ."
+    }
+  ],
+  "constraints": [
+    "1 <= number of nodes in root <= 2000",
+    "1 <= number of nodes in subRoot <= 1000",
+    "-10^4 <= Node.val <= 10^4"
+  ],
+  "hints": [
+    "Reuse the \"same tree\" check.",
+    "Try it at every node of root; the answer is true if any node's subtree matches subRoot."
+  ],
+  "signature": {
+    "params": ["TreeNode", "TreeNode"],
+    "returns": "json"
+  },
+  "testCases": [
+    {
+      "input": [
+        [3, 4, 5, 1, 2],
+        [4, 1, 2]
+      ],
+      "expected": true
+    },
+    {
+      "input": [
+        [3, 4, 5, 1, 2, null, null, null, null, 0],
+        [4, 1, 2]
+      ],
+      "expected": false
+    },
+    {
+      "input": [[1], [1]],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [[1, 1], [1]],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [[1, 2, 3], [3]],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [
+        [1, 2, 3],
+        [2, 3]
+      ],
+      "expected": false,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction isSubtree(root: TreeNode | null, subRoot: TreeNode | null): boolean {\n  \n}\n",
+      "functionName": "isSubtree",
+      "solution": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction isSubtree(root: TreeNode | null, subRoot: TreeNode | null): boolean {\n  function same(a: TreeNode | null, b: TreeNode | null): boolean {\n    if (!a && !b) return true\n    if (!a || !b || a.val !== b.val) return false\n    return same(a.left, b.left) && same(a.right, b.right)\n  }\n  if (!root) return !subRoot\n  return same(root, subRoot) || isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot)\n}\n"
+    }
+  }
+}

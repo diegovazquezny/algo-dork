@@ -1,0 +1,80 @@
+{
+  "id": "q-063",
+  "slug": "same-tree",
+  "title": "Same Tree",
+  "difficulty": "easy",
+  "tags": ["blind-75", "tree", "dfs"],
+  "description": "Given the roots of two binary trees `p` and `q`, return `true` if they are the **same**: structurally identical, with equal values in corresponding nodes.",
+  "examples": [
+    {
+      "input": "p = [1,2,3], q = [1,2,3]",
+      "output": "true"
+    },
+    {
+      "input": "p = [1,2], q = [1,null,2]",
+      "output": "false",
+      "explanation": "The single child is on a different side."
+    }
+  ],
+  "constraints": [
+    "0 <= number of nodes in each tree <= 100",
+    "-10^4 <= Node.val <= 10^4"
+  ],
+  "hints": [
+    "Two empty trees are the same; an empty tree and a non-empty tree are not.",
+    "Otherwise the roots must match and both pairs of subtrees must be the same."
+  ],
+  "signature": {
+    "params": ["TreeNode", "TreeNode"],
+    "returns": "json"
+  },
+  "testCases": [
+    {
+      "input": [
+        [1, 2, 3],
+        [1, 2, 3]
+      ],
+      "expected": true
+    },
+    {
+      "input": [
+        [1, 2],
+        [1, null, 2]
+      ],
+      "expected": false
+    },
+    {
+      "input": [
+        [1, 2, 1],
+        [1, 1, 2]
+      ],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": [[], []],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [[1], []],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": [
+        [1, 2, 3, 4],
+        [1, 2, 3, 4]
+      ],
+      "expected": true,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {\n  \n}\n",
+      "functionName": "isSameTree",
+      "solution": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {\n  if (!p && !q) return true\n  if (!p || !q || p.val !== q.val) return false\n  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)\n}\n"
+    }
+  }
+}

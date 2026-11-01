@@ -1,0 +1,102 @@
+{
+  "id": "q-077",
+  "slug": "find-median-from-data-stream",
+  "title": "Find Median from Data Stream",
+  "difficulty": "hard",
+  "tags": ["blind-75", "heap", "design", "two-pointers", "sorting"],
+  "description": "The **median** of a list of numbers is its middle value when sorted; for an even count it is the mean of the two middle values.\n\nImplement the `MedianFinder` class:\n\n- `MedianFinder()` creates an empty finder.\n- `addNum(num)` adds the integer `num` to the data stream.\n- `findMedian()` returns the median of all numbers added so far.\n\nTests describe a sequence of calls as two arrays: the operation names (starting with the class name) and their arguments. The expected output has `null` for the constructor and for methods that return nothing. Answers must match exactly, so return the true median (for example `1.5`).",
+  "examples": [
+    {
+      "input": "[\"MedianFinder\",\"addNum\",\"addNum\",\"findMedian\",\"addNum\",\"findMedian\"]\n[[],[1],[2],[],[3],[]]",
+      "output": "[null,null,null,1.5,null,2]"
+    }
+  ],
+  "constraints": [
+    "-10^5 <= num <= 10^5",
+    "findMedian is only called when at least one number has been added.",
+    "At most 5 * 10^4 calls are made."
+  ],
+  "hints": [
+    "Keep the smaller half of the numbers in a max-heap and the larger half in a min-heap.",
+    "After every insertion, rebalance so the two heaps differ in size by at most one; the median is then at one or both tops."
+  ],
+  "kind": "class",
+  "testCases": [
+    {
+      "input": [
+        [
+          "MedianFinder",
+          "addNum",
+          "addNum",
+          "findMedian",
+          "addNum",
+          "findMedian"
+        ],
+        [[], [1], [2], [], [3], []]
+      ],
+      "expected": [null, null, null, 1.5, null, 2]
+    },
+    {
+      "input": [
+        ["MedianFinder", "addNum", "findMedian"],
+        [[], [5], []]
+      ],
+      "expected": [null, null, 5]
+    },
+    {
+      "input": [
+        ["MedianFinder", "addNum", "addNum", "addNum", "addNum", "findMedian"],
+        [[], [-1], [-2], [-3], [-4], []]
+      ],
+      "expected": [null, null, null, null, null, -2.5],
+      "hidden": true
+    },
+    {
+      "input": [
+        ["MedianFinder", "addNum", "findMedian", "addNum", "findMedian"],
+        [[], [6], [], [10], []]
+      ],
+      "expected": [null, null, 6, null, 8],
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          "MedianFinder",
+          "addNum",
+          "addNum",
+          "addNum",
+          "findMedian",
+          "addNum",
+          "findMedian"
+        ],
+        [[], [2], [2], [2], [], [100], []]
+      ],
+      "expected": [null, null, null, null, 2, null, 2],
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          "MedianFinder",
+          "addNum",
+          "addNum",
+          "addNum",
+          "addNum",
+          "addNum",
+          "findMedian"
+        ],
+        [[], [5], [3], [8], [1], [9], []]
+      ],
+      "expected": [null, null, null, null, null, null, 5],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "class MedianFinder {\n  constructor() {\n    \n  }\n\n  addNum(num: number): void {\n    \n  }\n\n  findMedian(): number {\n    \n  }\n}\n",
+      "functionName": "MedianFinder",
+      "solution": "class Heap {\n  private items: number[] = []\n  constructor(private before: (a: number, b: number) => boolean) {}\n  get size() {\n    return this.items.length\n  }\n  peek() {\n    return this.items[0]\n  }\n  push(v: number) {\n    const a = this.items\n    a.push(v)\n    let i = a.length - 1\n    while (i > 0) {\n      const p = (i - 1) >> 1\n      if (!this.before(a[i], a[p])) break\n      ;[a[i], a[p]] = [a[p], a[i]]\n      i = p\n    }\n  }\n  pop(): number {\n    const a = this.items\n    const top = a[0]\n    const last = a.pop()!\n    if (a.length) {\n      a[0] = last\n      let i = 0\n      for (;;) {\n        const l = 2 * i + 1\n        const r = l + 1\n        let m = i\n        if (l < a.length && this.before(a[l], a[m])) m = l\n        if (r < a.length && this.before(a[r], a[m])) m = r\n        if (m === i) break\n        ;[a[i], a[m]] = [a[m], a[i]]\n        i = m\n      }\n    }\n    return top\n  }\n}\n\nclass MedianFinder {\n  private low = new Heap((a, b) => a > b)\n  private high = new Heap((a, b) => a < b)\n\n  addNum(num: number): void {\n    this.low.push(num)\n    this.high.push(this.low.pop())\n    if (this.high.size > this.low.size) this.low.push(this.high.pop())\n  }\n\n  findMedian(): number {\n    return this.low.size > this.high.size ? this.low.peek() : (this.low.peek() + this.high.peek()) / 2\n  }\n}\n"
+    }
+  }
+}

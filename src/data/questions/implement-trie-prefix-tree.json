@@ -1,0 +1,87 @@
+{
+  "id": "q-073",
+  "slug": "implement-trie-prefix-tree",
+  "title": "Implement Trie (Prefix Tree)",
+  "difficulty": "medium",
+  "tags": ["blind-75", "tree", "design", "trie", "string"],
+  "description": "A **trie** (prefix tree) stores strings so that prefix lookups are fast. Implement the `Trie` class:\n\n- `Trie()` creates an empty trie.\n- `insert(word)` adds the string `word`.\n- `search(word)` returns `true` if `word` was inserted earlier, otherwise `false`.\n- `startsWith(prefix)` returns `true` if some inserted word begins with `prefix`.\n\nTests describe a sequence of calls as two arrays: the operation names (starting with the class name) and their arguments. The expected output has `null` for the constructor and for methods that return nothing.",
+  "examples": [
+    {
+      "input": "[\"Trie\",\"insert\",\"search\",\"search\",\"startsWith\",\"insert\",\"search\"]\n[[],[\"apple\"],[\"apple\"],[\"app\"],[\"app\"],[\"app\"],[\"app\"]]",
+      "output": "[null,null,true,false,true,null,true]"
+    }
+  ],
+  "constraints": [
+    "1 <= word.length, prefix.length <= 2000",
+    "word and prefix consist of lowercase English letters.",
+    "At most 3 * 10^4 calls are made."
+  ],
+  "hints": [
+    "Each trie node holds a map from a letter to a child node and a flag that says \"a word ends here\".",
+    "search and startsWith both walk the letters of the query; they differ only in whether the final node must be marked as a word end."
+  ],
+  "kind": "class",
+  "testCases": [
+    {
+      "input": [
+        [
+          "Trie",
+          "insert",
+          "search",
+          "search",
+          "startsWith",
+          "insert",
+          "search"
+        ],
+        [[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
+      ],
+      "expected": [null, null, true, false, true, null, true]
+    },
+    {
+      "input": [
+        ["Trie", "search", "startsWith"],
+        [[], ["a"], ["a"]]
+      ],
+      "expected": [null, false, false]
+    },
+    {
+      "input": [
+        ["Trie", "insert", "insert", "search", "startsWith", "startsWith"],
+        [[], ["car"], ["card"], ["car"], ["care"], ["ca"]]
+      ],
+      "expected": [null, null, null, true, false, true],
+      "hidden": true
+    },
+    {
+      "input": [
+        ["Trie", "insert", "search", "search"],
+        [[], ["a"], ["a"], ["b"]]
+      ],
+      "expected": [null, null, true, false],
+      "hidden": true
+    },
+    {
+      "input": [
+        ["Trie", "insert", "insert", "search", "search", "startsWith"],
+        [[], ["hello"], ["help"], ["hel"], ["help"], ["hel"]]
+      ],
+      "expected": [null, null, null, false, true, true],
+      "hidden": true
+    },
+    {
+      "input": [
+        ["Trie", "insert", "startsWith", "search"],
+        [[], ["abc"], ["abcd"], ["abc"]]
+      ],
+      "expected": [null, null, false, true],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "class Trie {\n  constructor() {\n    \n  }\n\n  insert(word: string): void {\n    \n  }\n\n  search(word: string): boolean {\n    \n  }\n\n  startsWith(prefix: string): boolean {\n    \n  }\n}\n",
+      "functionName": "Trie",
+      "solution": "class TrieNode {\n  children = new Map<string, TrieNode>()\n  isWord = false\n}\n\nclass Trie {\n  private root = new TrieNode()\n\n  insert(word: string): void {\n    let node = this.root\n    for (const ch of word) {\n      if (!node.children.has(ch)) node.children.set(ch, new TrieNode())\n      node = node.children.get(ch)!\n    }\n    node.isWord = true\n  }\n\n  private find(s: string): TrieNode | null {\n    let node = this.root\n    for (const ch of s) {\n      const next = node.children.get(ch)\n      if (!next) return null\n      node = next\n    }\n    return node\n  }\n\n  search(word: string): boolean {\n    return this.find(word)?.isWord ?? false\n  }\n\n  startsWith(prefix: string): boolean {\n    return this.find(prefix) !== null\n  }\n}\n"
+    }
+  }
+}

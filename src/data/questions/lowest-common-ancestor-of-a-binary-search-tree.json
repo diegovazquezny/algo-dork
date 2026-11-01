@@ -1,0 +1,69 @@
+{
+  "id": "q-072",
+  "slug": "lowest-common-ancestor-of-a-binary-search-tree",
+  "title": "Lowest Common Ancestor of a Binary Search Tree",
+  "difficulty": "medium",
+  "tags": ["blind-75", "tree", "dfs", "binary-search-tree"],
+  "description": "Given a binary search tree with **unique** values and two values `p` and `q` that both exist in the tree, return the value of their **lowest common ancestor** (LCA): the deepest node that has both `p` and `q` as descendants. A node counts as a descendant of itself.",
+  "examples": [
+    {
+      "input": "root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8",
+      "output": "6"
+    },
+    {
+      "input": "root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4",
+      "output": "2",
+      "explanation": "A node can be an ancestor of another node."
+    }
+  ],
+  "constraints": [
+    "2 <= number of nodes <= 10^5",
+    "-10^9 <= Node.val <= 10^9",
+    "All values are unique and p != q."
+  ],
+  "hints": [
+    "Use the BST ordering: if both p and q are smaller than the current node, go left; if both are larger, go right.",
+    "The first node where they split (or equal one of them) is the answer."
+  ],
+  "signature": {
+    "params": ["TreeNode", "json", "json"],
+    "returns": "json"
+  },
+  "testCases": [
+    {
+      "input": [[6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], 2, 8],
+      "expected": 6
+    },
+    {
+      "input": [[6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], 2, 4],
+      "expected": 2
+    },
+    {
+      "input": [[2, 1], 2, 1],
+      "expected": 2,
+      "hidden": true
+    },
+    {
+      "input": [[6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], 3, 5],
+      "expected": 4,
+      "hidden": true
+    },
+    {
+      "input": [[6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], 0, 5],
+      "expected": 2,
+      "hidden": true
+    },
+    {
+      "input": [[6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], 7, 9],
+      "expected": 8,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction lowestCommonAncestor(root: TreeNode | null, p: number, q: number): number {\n  \n}\n",
+      "functionName": "lowestCommonAncestor",
+      "solution": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction lowestCommonAncestor(root: TreeNode | null, p: number, q: number): number {\n  let node = root\n  while (node) {\n    if (p < node.val && q < node.val) node = node.left\n    else if (p > node.val && q > node.val) node = node.right\n    else return node.val\n  }\n  return -1\n}\n"
+    }
+  }
+}

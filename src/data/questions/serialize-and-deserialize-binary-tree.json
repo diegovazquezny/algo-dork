@@ -1,0 +1,67 @@
+{
+  "id": "q-067",
+  "slug": "serialize-and-deserialize-binary-tree",
+  "title": "Serialize and Deserialize Binary Tree",
+  "difficulty": "hard",
+  "tags": ["blind-75", "tree", "design", "dfs", "bfs"],
+  "description": "Design an algorithm to **serialize** a binary tree into a string and **deserialize** that string back into the original tree.\n\nImplement both functions. The test calls `deserialize(serialize(root))` and expects a tree identical to the original (same shape, same values). You may choose any string format you like; your serialized value must be a string, and it must not rely on state shared between the two calls.",
+  "examples": [
+    {
+      "input": "root = [1,2,3,null,null,4,5]",
+      "output": "[1,2,3,null,null,4,5]",
+      "explanation": "deserialize(serialize(root)) rebuilds the same tree."
+    },
+    {
+      "input": "root = []",
+      "output": "[]"
+    }
+  ],
+  "constraints": ["0 <= number of nodes <= 10^4", "-1000 <= Node.val <= 1000"],
+  "hints": [
+    "A preorder walk that also records where children are missing (for example with a \"#\" marker) is enough to rebuild the tree.",
+    "When deserializing, consume the tokens in the same order using a shared index or queue."
+  ],
+  "kind": "roundtrip",
+  "signature": {
+    "params": ["TreeNode"],
+    "returns": "TreeNode"
+  },
+  "testCases": [
+    {
+      "input": [[1, 2, 3, null, null, 4, 5]],
+      "expected": [1, 2, 3, null, null, 4, 5]
+    },
+    {
+      "input": [[]],
+      "expected": []
+    },
+    {
+      "input": [[1]],
+      "expected": [1],
+      "hidden": true
+    },
+    {
+      "input": [[1, 2]],
+      "expected": [1, 2],
+      "hidden": true
+    },
+    {
+      "input": [[1, null, 2, null, 3]],
+      "expected": [1, null, 2, null, 3],
+      "hidden": true
+    },
+    {
+      "input": [[-1, 0, 1, -2, null, null, 2]],
+      "expected": [-1, 0, 1, -2, null, null, 2],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction serialize(root: TreeNode | null): string {\n  \n}\n\nfunction deserialize(data: string): TreeNode | null {\n  \n}\n",
+      "functionName": "serialize",
+      "decoderName": "deserialize",
+      "solution": "declare class TreeNode {\n  val: number\n  left: TreeNode | null\n  right: TreeNode | null\n  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null)\n}\n\nfunction serialize(root: TreeNode | null): string {\n  const out: string[] = []\n  function walk(n: TreeNode | null) {\n    if (!n) {\n      out.push('#')\n      return\n    }\n    out.push(String(n.val))\n    walk(n.left)\n    walk(n.right)\n  }\n  walk(root)\n  return out.join(',')\n}\n\nfunction deserialize(data: string): TreeNode | null {\n  const tokens = data.split(',')\n  let i = 0\n  function build(): TreeNode | null {\n    const t = tokens[i++]\n    if (t === '#') return null\n    const node = new TreeNode(Number(t))\n    node.left = build()\n    node.right = build()\n    return node\n  }\n  return build()\n}\n"
+    }
+  }
+}
