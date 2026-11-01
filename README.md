@@ -12,6 +12,15 @@ npm run typecheck
 npm run build
 ```
 
+## Run with Docker
+
+```bash
+docker build -t algo-dork .
+docker run --rm -p 8080:80 algo-dork   # http://localhost:8080
+```
+
+The image builds the app and serves the static output with nginx.
+
 ## Architecture
 
 - `src/domain` — Zod schemas/types for questions and progress.
