@@ -1,0 +1,111 @@
+{
+  "id": "q-011",
+  "slug": "find-minimum-in-rotated-sorted-array",
+  "title": "Find Minimum in Rotated Sorted Array",
+  "difficulty": "medium",
+  "tags": [
+    "blind-75",
+    "array",
+    "binary-search"
+  ],
+  "description": "A sorted array of **unique** integers was rotated between 1 and `n` times, so `[0,1,2,4,5,6,7]` might become `[4,5,6,7,0,1,2]`.\n\nGiven the rotated array `nums`, return its minimum element. Your algorithm must run in **O(log n)** time.",
+  "examples": [
+    {
+      "input": "nums = [3,4,5,1,2]",
+      "output": "1",
+      "explanation": "The original array was [1,2,3,4,5], rotated 3 times."
+    },
+    {
+      "input": "nums = [4,5,6,7,0,1,2]",
+      "output": "0"
+    }
+  ],
+  "constraints": [
+    "1 <= nums.length <= 5000",
+    "-5000 <= nums[i] <= 5000",
+    "All values are unique."
+  ],
+  "hints": [
+    "Compare the middle element with the rightmost element to decide which half is still sorted.",
+    "The minimum lies in the half that is not sorted."
+  ],
+  "testCases": [
+    {
+      "input": [
+        [
+          3,
+          4,
+          5,
+          1,
+          2
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "input": [
+        [
+          4,
+          5,
+          6,
+          7,
+          0,
+          1,
+          2
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "input": [
+        [
+          11,
+          13,
+          15,
+          17
+        ]
+      ],
+      "expected": 11,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          2,
+          1
+        ]
+      ],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          1
+        ]
+      ],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          5,
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "expected": 1,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function findMin(nums: number[]): number {\n  \n}\n",
+      "functionName": "findMin",
+      "solution": "function findMin(nums: number[]): number {\n  let lo = 0\n  let hi = nums.length - 1\n  while (lo < hi) {\n    const mid = (lo + hi) >> 1\n    if (nums[mid] > nums[hi]) lo = mid + 1\n    else hi = mid\n  }\n  return nums[lo]\n}\n"
+    }
+  }
+}

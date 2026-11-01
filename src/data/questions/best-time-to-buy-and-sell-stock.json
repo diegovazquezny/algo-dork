@@ -1,0 +1,110 @@
+{
+  "id": "q-007",
+  "slug": "best-time-to-buy-and-sell-stock",
+  "title": "Best Time to Buy and Sell Stock",
+  "difficulty": "easy",
+  "tags": [
+    "blind-75",
+    "array",
+    "dynamic-programming"
+  ],
+  "description": "You are given an array `prices` where `prices[i]` is the price of a stock on day `i`.\n\nYou may complete **at most one** transaction: pick one day to buy and a **later** day to sell. Return the maximum profit you can make, or `0` if no profit is possible.",
+  "examples": [
+    {
+      "input": "prices = [7,1,5,3,6,4]",
+      "output": "5",
+      "explanation": "Buy on day 2 (price 1) and sell on day 5 (price 6)."
+    },
+    {
+      "input": "prices = [7,6,4,3,1]",
+      "output": "0",
+      "explanation": "Prices only fall, so no transaction is worth making."
+    }
+  ],
+  "constraints": [
+    "1 <= prices.length <= 10^5",
+    "0 <= prices[i] <= 10^4"
+  ],
+  "hints": [
+    "For each day, the best buy is the cheapest price seen before it.",
+    "Track the running minimum and the best profit in a single pass."
+  ],
+  "testCases": [
+    {
+      "input": [
+        [
+          7,
+          1,
+          5,
+          3,
+          6,
+          4
+        ]
+      ],
+      "expected": 5
+    },
+    {
+      "input": [
+        [
+          7,
+          6,
+          4,
+          3,
+          1
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "input": [
+        [
+          1
+        ]
+      ],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          2,
+          4,
+          1
+        ]
+      ],
+      "expected": 2,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          3,
+          2,
+          6,
+          5,
+          0,
+          3
+        ]
+      ],
+      "expected": 4,
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          1,
+          2
+        ]
+      ],
+      "expected": 1,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function maxProfit(prices: number[]): number {\n  \n}\n",
+      "functionName": "maxProfit",
+      "solution": "function maxProfit(prices: number[]): number {\n  let min = Infinity\n  let best = 0\n  for (const p of prices) {\n    min = Math.min(min, p)\n    best = Math.max(best, p - min)\n  }\n  return best\n}\n"
+    }
+  }
+}

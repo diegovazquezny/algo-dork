@@ -3,7 +3,11 @@
   "slug": "valid-parentheses",
   "title": "Valid Parentheses",
   "difficulty": "easy",
-  "tags": ["string", "stack"],
+  "tags": [
+    "blind-75",
+    "string",
+    "stack"
+  ],
   "description": "Given a string `s` containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.\n\nA string is valid if open brackets are closed by the same type of bracket, in the correct order, and every close bracket has a matching open bracket.",
   "examples": [
     {
@@ -19,32 +23,46 @@
     "1 <= s.length <= 10^4",
     "s consists only of parentheses characters."
   ],
-  "hints": ["Use a stack of expected closing brackets."],
+  "hints": [
+    "Use a stack of expected closing brackets."
+  ],
   "testCases": [
     {
-      "input": ["()"],
+      "input": [
+        "()"
+      ],
       "expected": true
     },
     {
-      "input": ["()[]{}"],
+      "input": [
+        "()[]{}"
+      ],
       "expected": true
     },
     {
-      "input": ["(]"],
+      "input": [
+        "(]"
+      ],
       "expected": false
     },
     {
-      "input": ["([)]"],
+      "input": [
+        "([)]"
+      ],
       "expected": false,
       "hidden": true
     },
     {
-      "input": ["{[]}"],
+      "input": [
+        "{[]}"
+      ],
       "expected": true,
       "hidden": true
     },
     {
-      "input": ["("],
+      "input": [
+        "("
+      ],
       "expected": false,
       "hidden": true
     }
