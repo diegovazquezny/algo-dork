@@ -1,0 +1,62 @@
+{
+  "id": "q-025",
+  "slug": "house-robber",
+  "title": "House Robber",
+  "difficulty": "medium",
+  "tags": ["blind-75", "dynamic-programming", "array"],
+  "description": "You are planning to rob houses along a street. House `i` holds `nums[i]` dollars, but robbing two **adjacent** houses triggers the alarm.\n\nReturn the maximum amount you can rob without robbing two adjacent houses.",
+  "examples": [
+    {
+      "input": "nums = [1,2,3,1]",
+      "output": "4",
+      "explanation": "Rob houses 1 and 3: 1 + 3 = 4."
+    },
+    {
+      "input": "nums = [2,7,9,3,1]",
+      "output": "12",
+      "explanation": "Rob houses 1, 3 and 5: 2 + 9 + 1 = 12."
+    }
+  ],
+  "constraints": ["1 <= nums.length <= 100", "0 <= nums[i] <= 400"],
+  "hints": [
+    "For each house you either skip it or rob it plus the best from two houses back.",
+    "You only need the previous two results, so O(1) extra space is enough."
+  ],
+  "testCases": [
+    {
+      "input": [[1, 2, 3, 1]],
+      "expected": 4
+    },
+    {
+      "input": [[2, 7, 9, 3, 1]],
+      "expected": 12
+    },
+    {
+      "input": [[2, 1, 1, 2]],
+      "expected": 4,
+      "hidden": true
+    },
+    {
+      "input": [[0]],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [[5]],
+      "expected": 5,
+      "hidden": true
+    },
+    {
+      "input": [[1, 3, 1, 3, 100]],
+      "expected": 103,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function rob(nums: number[]): number {\n  \n}\n",
+      "functionName": "rob",
+      "solution": "function rob(nums: number[]): number {\n  let prev = 0\n  let curr = 0\n  for (const n of nums) {\n    const next = Math.max(curr, prev + n)\n    prev = curr\n    curr = next\n  }\n  return curr\n}\n"
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "id": "q-016",
+  "slug": "number-of-1-bits",
+  "title": "Number of 1 Bits",
+  "difficulty": "easy",
+  "tags": ["blind-75", "binary", "bit-manipulation"],
+  "description": "Given an unsigned 32-bit integer `n`, return the number of `1` bits in its binary representation (its *Hamming weight*).",
+  "examples": [
+    {
+      "input": "n = 11",
+      "output": "3",
+      "explanation": "11 is 1011 in binary, which has three 1 bits."
+    },
+    {
+      "input": "n = 128",
+      "output": "1"
+    }
+  ],
+  "constraints": ["0 <= n <= 2^32 - 1"],
+  "hints": [
+    "n & (n - 1) clears the lowest set bit.",
+    "In JavaScript use `>>> 0` to treat a value as unsigned."
+  ],
+  "testCases": [
+    {
+      "input": [11],
+      "expected": 3
+    },
+    {
+      "input": [128],
+      "expected": 1
+    },
+    {
+      "input": [2147483645],
+      "expected": 30,
+      "hidden": true
+    },
+    {
+      "input": [0],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [4294967293],
+      "expected": 31,
+      "hidden": true
+    },
+    {
+      "input": [4294967295],
+      "expected": 32,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function hammingWeight(n: number): number {\n  \n}\n",
+      "functionName": "hammingWeight",
+      "solution": "function hammingWeight(n: number): number {\n  let x = n >>> 0\n  let count = 0\n  while (x !== 0) {\n    x = (x & (x - 1)) >>> 0\n    count++\n  }\n  return count\n}\n"
+    }
+  }
+}

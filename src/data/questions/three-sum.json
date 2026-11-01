@@ -3,12 +3,7 @@
   "slug": "three-sum",
   "title": "3Sum",
   "difficulty": "medium",
-  "tags": [
-    "blind-75",
-    "array",
-    "two-pointers",
-    "sorting"
-  ],
+  "tags": ["blind-75", "array", "two-pointers", "sorting"],
   "description": "Given an integer array `nums`, return all **unique** triplets `[nums[i], nums[j], nums[k]]` with distinct indices `i`, `j`, `k` such that the three values add up to `0`.\n\nThe result must not contain duplicate triplets. The order of the triplets, and of the numbers inside each triplet, does not matter.",
   "examples": [
     {
@@ -25,10 +20,7 @@
       "output": "[[0,0,0]]"
     }
   ],
-  "constraints": [
-    "3 <= nums.length <= 3000",
-    "-10^5 <= nums[i] <= 10^5"
-  ],
+  "constraints": ["3 <= nums.length <= 3000", "-10^5 <= nums[i] <= 10^5"],
   "hints": [
     "Sort the array, fix the first number, then use two pointers for the rest.",
     "Skip repeated values for the first number and for the pointers so triplets are not duplicated."
@@ -36,114 +28,37 @@
   "comparison": "unordered-deep",
   "testCases": [
     {
-      "input": [
-        [
-          -1,
-          0,
-          1,
-          2,
-          -1,
-          -4
-        ]
-      ],
+      "input": [[-1, 0, 1, 2, -1, -4]],
       "expected": [
-        [
-          -1,
-          -1,
-          2
-        ],
-        [
-          -1,
-          0,
-          1
-        ]
+        [-1, -1, 2],
+        [-1, 0, 1]
       ]
     },
     {
-      "input": [
-        [
-          0,
-          1,
-          1
-        ]
-      ],
+      "input": [[0, 1, 1]],
       "expected": []
     },
     {
-      "input": [
-        [
-          0,
-          0,
-          0
-        ]
-      ],
+      "input": [[0, 0, 0]],
+      "expected": [[0, 0, 0]],
+      "hidden": true
+    },
+    {
+      "input": [[-2, 0, 1, 1, 2]],
       "expected": [
-        [
-          0,
-          0,
-          0
-        ]
+        [-2, 0, 2],
+        [-2, 1, 1]
       ],
       "hidden": true
     },
     {
-      "input": [
-        [
-          -2,
-          0,
-          1,
-          1,
-          2
-        ]
-      ],
-      "expected": [
-        [
-          -2,
-          0,
-          2
-        ],
-        [
-          -2,
-          1,
-          1
-        ]
-      ],
+      "input": [[-1, 0, 1, 0]],
+      "expected": [[-1, 0, 1]],
       "hidden": true
     },
     {
-      "input": [
-        [
-          -1,
-          0,
-          1,
-          0
-        ]
-      ],
-      "expected": [
-        [
-          -1,
-          0,
-          1
-        ]
-      ],
-      "hidden": true
-    },
-    {
-      "input": [
-        [
-          0,
-          0,
-          0,
-          0
-        ]
-      ],
-      "expected": [
-        [
-          0,
-          0,
-          0
-        ]
-      ],
+      "input": [[0, 0, 0, 0]],
+      "expected": [[0, 0, 0]],
       "hidden": true
     }
   ],

@@ -1,0 +1,62 @@
+{
+  "id": "q-029",
+  "slug": "jump-game",
+  "title": "Jump Game",
+  "difficulty": "medium",
+  "tags": ["blind-75", "dynamic-programming", "greedy", "array"],
+  "description": "You start at index `0` of the array `nums`. Each element `nums[i]` is the **maximum** number of steps you can jump forward from index `i`.\n\nReturn `true` if you can reach the last index, otherwise `false`.",
+  "examples": [
+    {
+      "input": "nums = [2,3,1,1,4]",
+      "output": "true",
+      "explanation": "Jump 1 step to index 1, then 3 steps to the last index."
+    },
+    {
+      "input": "nums = [3,2,1,0,4]",
+      "output": "false",
+      "explanation": "Every path ends at index 3, where the jump length is 0."
+    }
+  ],
+  "constraints": ["1 <= nums.length <= 10^4", "0 <= nums[i] <= 10^5"],
+  "hints": [
+    "Track the farthest index reachable so far.",
+    "If you reach an index beyond that farthest point, you are stuck."
+  ],
+  "testCases": [
+    {
+      "input": [[2, 3, 1, 1, 4]],
+      "expected": true
+    },
+    {
+      "input": [[3, 2, 1, 0, 4]],
+      "expected": false
+    },
+    {
+      "input": [[0]],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [[2, 0, 0]],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [[1, 0, 1]],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": [[0, 1]],
+      "expected": false,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function canJump(nums: number[]): boolean {\n  \n}\n",
+      "functionName": "canJump",
+      "solution": "function canJump(nums: number[]): boolean {\n  let farthest = 0\n  for (let i = 0; i < nums.length; i++) {\n    if (i > farthest) return false\n    farthest = Math.max(farthest, i + nums[i])\n  }\n  return true\n}\n"
+    }
+  }
+}

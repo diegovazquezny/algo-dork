@@ -1,0 +1,61 @@
+{
+  "id": "q-019",
+  "slug": "reverse-bits",
+  "title": "Reverse Bits",
+  "difficulty": "easy",
+  "tags": ["blind-75", "binary", "bit-manipulation"],
+  "description": "Reverse the bits of an unsigned 32-bit integer `n` and return the result as an unsigned integer.\n\nFor example, `00000010100101000001111010011100` becomes `00111001011110000010100101000000`.",
+  "examples": [
+    {
+      "input": "n = 43261596",
+      "output": "964176192",
+      "explanation": "43261596 is 00000010100101000001111010011100; reversed it is 00111001011110000010100101000000, which is 964176192."
+    },
+    {
+      "input": "n = 4294967293",
+      "output": "3221225471"
+    }
+  ],
+  "constraints": ["0 <= n <= 2^32 - 1"],
+  "hints": [
+    "Build the answer one bit at a time: shift the result left, then append the lowest bit of n.",
+    "Use `>>> 0` so the result is read as unsigned."
+  ],
+  "testCases": [
+    {
+      "input": [43261596],
+      "expected": 964176192
+    },
+    {
+      "input": [4294967293],
+      "expected": 3221225471
+    },
+    {
+      "input": [0],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [1],
+      "expected": 2147483648,
+      "hidden": true
+    },
+    {
+      "input": [4294967295],
+      "expected": 4294967295,
+      "hidden": true
+    },
+    {
+      "input": [2147483648],
+      "expected": 1,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function reverseBits(n: number): number {\n  \n}\n",
+      "functionName": "reverseBits",
+      "solution": "function reverseBits(n: number): number {\n  let result = 0\n  let x = n >>> 0\n  for (let i = 0; i < 32; i++) {\n    result = (result << 1) | (x & 1)\n    x >>>= 1\n  }\n  return result >>> 0\n}\n"
+    }
+  }
+}

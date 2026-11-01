@@ -1,0 +1,74 @@
+{
+  "id": "q-027",
+  "slug": "decode-ways",
+  "title": "Decode Ways",
+  "difficulty": "medium",
+  "tags": ["blind-75", "dynamic-programming", "string"],
+  "description": "A message of letters is encoded as digits using `A = 1, B = 2, ..., Z = 26`. Given a string `s` of digits, return the **number of ways** to decode it.\n\nFor example, `\"11106\"` decodes as `AAJF` (1 1 10 6) or `KJF` (11 10 6). Groups with a leading zero, such as `\"06\"`, are not valid. If no valid decoding exists, return `0`.",
+  "examples": [
+    {
+      "input": "s = \"12\"",
+      "output": "2",
+      "explanation": "\"AB\" (1 2) or \"L\" (12)."
+    },
+    {
+      "input": "s = \"226\"",
+      "output": "3",
+      "explanation": "\"BZ\", \"VF\" or \"BBF\"."
+    },
+    {
+      "input": "s = \"06\"",
+      "output": "0"
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 100",
+    "s contains only digits and may have leading zeros."
+  ],
+  "hints": [
+    "ways[i] depends on whether the last one digit and the last two digits form a valid letter.",
+    "Only the previous two counts are needed."
+  ],
+  "testCases": [
+    {
+      "input": ["12"],
+      "expected": 2
+    },
+    {
+      "input": ["226"],
+      "expected": 3
+    },
+    {
+      "input": ["06"],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": ["10"],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": ["27"],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": ["2101"],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": ["11106"],
+      "expected": 2,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function numDecodings(s: string): number {\n  \n}\n",
+      "functionName": "numDecodings",
+      "solution": "function numDecodings(s: string): number {\n  let prev = 1\n  let curr = s[0] === '0' ? 0 : 1\n  for (let i = 2; i <= s.length; i++) {\n    let next = 0\n    if (s[i - 1] !== '0') next += curr\n    const two = Number(s.slice(i - 2, i))\n    if (two >= 10 && two <= 26) next += prev\n    prev = curr\n    curr = next\n  }\n  return curr\n}\n"
+    }
+  }
+}

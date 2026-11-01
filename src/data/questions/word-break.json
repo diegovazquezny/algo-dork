@@ -1,0 +1,65 @@
+{
+  "id": "q-023",
+  "slug": "word-break",
+  "title": "Word Break",
+  "difficulty": "medium",
+  "tags": ["blind-75", "dynamic-programming", "string", "hash-table"],
+  "description": "Given a string `s` and a list of words `wordDict`, return `true` if `s` can be split into a sequence of one or more dictionary words.\n\nThe same word may be used more than once.",
+  "examples": [
+    {
+      "input": "s = \"leetcode\", wordDict = [\"leet\",\"code\"]",
+      "output": "true"
+    },
+    {
+      "input": "s = \"catsandog\", wordDict = [\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]",
+      "output": "false"
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 300",
+    "1 <= wordDict.length <= 1000",
+    "1 <= wordDict[i].length <= 20",
+    "All dictionary words are unique and lowercase."
+  ],
+  "hints": [
+    "Let ok[i] mean the first i characters can be segmented.",
+    "ok[i] is true if some j < i has ok[j] and s.slice(j, i) is a word."
+  ],
+  "testCases": [
+    {
+      "input": ["leetcode", ["leet", "code"]],
+      "expected": true
+    },
+    {
+      "input": ["applepenapple", ["apple", "pen"]],
+      "expected": true
+    },
+    {
+      "input": ["catsandog", ["cats", "dog", "sand", "and", "cat"]],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": ["a", ["b"]],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": ["aaaaaaa", ["aaaa", "aaa"]],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": ["cars", ["car", "ca", "rs"]],
+      "expected": true,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function wordBreak(s: string, wordDict: string[]): boolean {\n  \n}\n",
+      "functionName": "wordBreak",
+      "solution": "function wordBreak(s: string, wordDict: string[]): boolean {\n  const words = new Set(wordDict)\n  const ok = new Array<boolean>(s.length + 1).fill(false)\n  ok[0] = true\n  for (let i = 1; i <= s.length; i++) {\n    for (let j = 0; j < i; j++) {\n      if (ok[j] && words.has(s.slice(j, i))) {\n        ok[i] = true\n        break\n      }\n    }\n  }\n  return ok[s.length]\n}\n"
+    }
+  }
+}

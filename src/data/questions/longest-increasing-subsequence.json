@@ -1,0 +1,61 @@
+{
+  "id": "q-021",
+  "slug": "longest-increasing-subsequence",
+  "title": "Longest Increasing Subsequence",
+  "difficulty": "medium",
+  "tags": ["blind-75", "dynamic-programming", "array", "binary-search"],
+  "description": "Given an integer array `nums`, return the length of the **longest strictly increasing subsequence**.\n\nA subsequence keeps the original relative order but may skip elements.",
+  "examples": [
+    {
+      "input": "nums = [10,9,2,5,3,7,101,18]",
+      "output": "4",
+      "explanation": "One longest subsequence is [2,3,7,101]."
+    },
+    {
+      "input": "nums = [7,7,7,7,7,7,7]",
+      "output": "1"
+    }
+  ],
+  "constraints": ["1 <= nums.length <= 2500", "-10^4 <= nums[i] <= 10^4"],
+  "hints": [
+    "A DP where dp[i] is the best length ending at i gives O(n^2).",
+    "For O(n log n), keep the smallest possible tail of each subsequence length and binary-search where each number belongs."
+  ],
+  "testCases": [
+    {
+      "input": [[10, 9, 2, 5, 3, 7, 101, 18]],
+      "expected": 4
+    },
+    {
+      "input": [[0, 1, 0, 3, 2, 3]],
+      "expected": 4
+    },
+    {
+      "input": [[7, 7, 7, 7, 7, 7, 7]],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [[1]],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [[4, 10, 4, 3, 8, 9]],
+      "expected": 3,
+      "hidden": true
+    },
+    {
+      "input": [[5, 4, 3]],
+      "expected": 1,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function lengthOfLIS(nums: number[]): number {\n  \n}\n",
+      "functionName": "lengthOfLIS",
+      "solution": "function lengthOfLIS(nums: number[]): number {\n  const tails: number[] = []\n  for (const n of nums) {\n    let lo = 0\n    let hi = tails.length\n    while (lo < hi) {\n      const mid = (lo + hi) >> 1\n      if (tails[mid] < n) lo = mid + 1\n      else hi = mid\n    }\n    tails[lo] = n\n  }\n  return tails.length\n}\n"
+    }
+  }
+}

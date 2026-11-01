@@ -1,0 +1,86 @@
+{
+  "id": "q-024",
+  "slug": "combination-sum",
+  "title": "Combination Sum",
+  "difficulty": "medium",
+  "tags": ["blind-75", "dynamic-programming", "backtracking", "array"],
+  "description": "Given an array of **distinct** positive integers `candidates` and a `target`, return every **unique combination** of candidates that sums to `target`.\n\nA candidate may be used any number of times. Two combinations are different if some value is used a different number of times. You may return the combinations in any order, and the numbers inside each combination in any order.",
+  "examples": [
+    {
+      "input": "candidates = [2,3,6,7], target = 7",
+      "output": "[[2,2,3],[7]]"
+    },
+    {
+      "input": "candidates = [2,3,5], target = 8",
+      "output": "[[2,2,2,2],[2,3,3],[3,5]]"
+    },
+    {
+      "input": "candidates = [2], target = 1",
+      "output": "[]"
+    }
+  ],
+  "constraints": [
+    "1 <= candidates.length <= 30",
+    "2 <= candidates[i] <= 40",
+    "All candidates are distinct.",
+    "1 <= target <= 40"
+  ],
+  "hints": [
+    "Backtrack: at each step choose a candidate at or after the current index so combinations are not repeated in a different order.",
+    "Stop exploring when the running sum exceeds the target."
+  ],
+  "comparison": "unordered-deep",
+  "testCases": [
+    {
+      "input": [[2, 3, 6, 7], 7],
+      "expected": [[2, 2, 3], [7]]
+    },
+    {
+      "input": [[2, 3, 5], 8],
+      "expected": [
+        [2, 2, 2, 2],
+        [2, 3, 3],
+        [3, 5]
+      ]
+    },
+    {
+      "input": [[2], 1],
+      "expected": [],
+      "hidden": true
+    },
+    {
+      "input": [[2], 4],
+      "expected": [[2, 2]],
+      "hidden": true
+    },
+    {
+      "input": [[7, 3, 2], 18],
+      "expected": [
+        [7, 7, 2, 2],
+        [7, 3, 3, 3, 2],
+        [7, 3, 2, 2, 2, 2],
+        [3, 3, 3, 3, 3, 3],
+        [3, 3, 3, 3, 2, 2, 2],
+        [3, 3, 2, 2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2]
+      ],
+      "hidden": true
+    },
+    {
+      "input": [[8, 7, 4, 3], 11],
+      "expected": [
+        [7, 4],
+        [8, 3],
+        [4, 4, 3]
+      ],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function combinationSum(candidates: number[], target: number): number[][] {\n  \n}\n",
+      "functionName": "combinationSum",
+      "solution": "function combinationSum(candidates: number[], target: number): number[][] {\n  const result: number[][] = []\n  const path: number[] = []\n  function go(start: number, remaining: number) {\n    if (remaining === 0) {\n      result.push([...path])\n      return\n    }\n    for (let i = start; i < candidates.length; i++) {\n      if (candidates[i] > remaining) continue\n      path.push(candidates[i])\n      go(i, remaining - candidates[i])\n      path.pop()\n    }\n  }\n  go(0, target)\n  return result\n}\n"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "q-018",
+  "slug": "missing-number",
+  "title": "Missing Number",
+  "difficulty": "easy",
+  "tags": ["blind-75", "binary", "array", "math", "bit-manipulation"],
+  "description": "The array `nums` contains `n` distinct numbers taken from the range `[0, n]`. Return the one number in that range that is **missing** from the array.",
+  "examples": [
+    {
+      "input": "nums = [3,0,1]",
+      "output": "2"
+    },
+    {
+      "input": "nums = [0,1]",
+      "output": "2"
+    },
+    {
+      "input": "nums = [9,6,4,2,3,5,7,0,1]",
+      "output": "8"
+    }
+  ],
+  "constraints": [
+    "n == nums.length",
+    "1 <= n <= 10^4",
+    "0 <= nums[i] <= n",
+    "All numbers are unique."
+  ],
+  "hints": [
+    "The sum of 0..n is known in closed form.",
+    "Alternatively XOR every index and every value; pairs cancel and the missing number remains."
+  ],
+  "testCases": [
+    {
+      "input": [[3, 0, 1]],
+      "expected": 2
+    },
+    {
+      "input": [[0, 1]],
+      "expected": 2
+    },
+    {
+      "input": [[9, 6, 4, 2, 3, 5, 7, 0, 1]],
+      "expected": 8,
+      "hidden": true
+    },
+    {
+      "input": [[0]],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [[1]],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [[1, 2]],
+      "expected": 0,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function missingNumber(nums: number[]): number {\n  \n}\n",
+      "functionName": "missingNumber",
+      "solution": "function missingNumber(nums: number[]): number {\n  let x = nums.length\n  for (let i = 0; i < nums.length; i++) x ^= i ^ nums[i]\n  return x\n}\n"
+    }
+  }
+}

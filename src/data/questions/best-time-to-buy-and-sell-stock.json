@@ -3,11 +3,7 @@
   "slug": "best-time-to-buy-and-sell-stock",
   "title": "Best Time to Buy and Sell Stock",
   "difficulty": "easy",
-  "tags": [
-    "blind-75",
-    "array",
-    "dynamic-programming"
-  ],
+  "tags": ["blind-75", "array", "dynamic-programming"],
   "description": "You are given an array `prices` where `prices[i]` is the price of a stock on day `i`.\n\nYou may complete **at most one** transaction: pick one day to buy and a **later** day to sell. Return the maximum profit you can make, or `0` if no profit is possible.",
   "examples": [
     {
@@ -21,81 +17,37 @@
       "explanation": "Prices only fall, so no transaction is worth making."
     }
   ],
-  "constraints": [
-    "1 <= prices.length <= 10^5",
-    "0 <= prices[i] <= 10^4"
-  ],
+  "constraints": ["1 <= prices.length <= 10^5", "0 <= prices[i] <= 10^4"],
   "hints": [
     "For each day, the best buy is the cheapest price seen before it.",
     "Track the running minimum and the best profit in a single pass."
   ],
   "testCases": [
     {
-      "input": [
-        [
-          7,
-          1,
-          5,
-          3,
-          6,
-          4
-        ]
-      ],
+      "input": [[7, 1, 5, 3, 6, 4]],
       "expected": 5
     },
     {
-      "input": [
-        [
-          7,
-          6,
-          4,
-          3,
-          1
-        ]
-      ],
+      "input": [[7, 6, 4, 3, 1]],
       "expected": 0
     },
     {
-      "input": [
-        [
-          1
-        ]
-      ],
+      "input": [[1]],
       "expected": 0,
       "hidden": true
     },
     {
-      "input": [
-        [
-          2,
-          4,
-          1
-        ]
-      ],
+      "input": [[2, 4, 1]],
       "expected": 2,
       "hidden": true
     },
     {
-      "input": [
-        [
-          3,
-          2,
-          6,
-          5,
-          0,
-          3
-        ]
-      ],
+      "input": [[3, 2, 6, 5, 0, 3]],
       "expected": 4,
       "hidden": true
     },
     {
-      "input": [
-        [
-          1,
-          2
-        ]
-      ],
+      "input": [[1, 2]],
       "expected": 1,
       "hidden": true
     }

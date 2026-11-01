@@ -3,11 +3,7 @@
   "slug": "search-in-rotated-sorted-array",
   "title": "Search in Rotated Sorted Array",
   "difficulty": "medium",
-  "tags": [
-    "blind-75",
-    "array",
-    "binary-search"
-  ],
+  "tags": ["blind-75", "array", "binary-search"],
   "description": "A sorted array of **distinct** integers was rotated at some unknown pivot, e.g. `[0,1,2,4,5,6,7]` became `[4,5,6,7,0,1,2]`.\n\nGiven the rotated array `nums` and an integer `target`, return the index of `target`, or `-1` if it is not present. Your algorithm must run in **O(log n)** time.",
   "examples": [
     {
@@ -30,75 +26,30 @@
   ],
   "testCases": [
     {
-      "input": [
-        [
-          4,
-          5,
-          6,
-          7,
-          0,
-          1,
-          2
-        ],
-        0
-      ],
+      "input": [[4, 5, 6, 7, 0, 1, 2], 0],
       "expected": 4
     },
     {
-      "input": [
-        [
-          4,
-          5,
-          6,
-          7,
-          0,
-          1,
-          2
-        ],
-        3
-      ],
+      "input": [[4, 5, 6, 7, 0, 1, 2], 3],
       "expected": -1
     },
     {
-      "input": [
-        [
-          1
-        ],
-        0
-      ],
+      "input": [[1], 0],
       "expected": -1,
       "hidden": true
     },
     {
-      "input": [
-        [
-          1
-        ],
-        1
-      ],
+      "input": [[1], 1],
       "expected": 0,
       "hidden": true
     },
     {
-      "input": [
-        [
-          3,
-          1
-        ],
-        1
-      ],
+      "input": [[3, 1], 1],
       "expected": 1,
       "hidden": true
     },
     {
-      "input": [
-        [
-          5,
-          1,
-          3
-        ],
-        5
-      ],
+      "input": [[5, 1, 3], 5],
       "expected": 0,
       "hidden": true
     }

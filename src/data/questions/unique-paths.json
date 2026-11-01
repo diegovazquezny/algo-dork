@@ -1,0 +1,64 @@
+{
+  "id": "q-028",
+  "slug": "unique-paths",
+  "title": "Unique Paths",
+  "difficulty": "medium",
+  "tags": ["blind-75", "dynamic-programming", "math"],
+  "description": "A robot starts at the top-left corner of an `m x n` grid and wants to reach the bottom-right corner. It can only move **down** or **right** one cell at a time.\n\nReturn the number of distinct paths the robot can take.",
+  "examples": [
+    {
+      "input": "m = 3, n = 7",
+      "output": "28"
+    },
+    {
+      "input": "m = 3, n = 2",
+      "output": "3",
+      "explanation": "Right-Down-Down, Down-Right-Down, Down-Down-Right."
+    }
+  ],
+  "constraints": [
+    "1 <= m, n <= 100",
+    "The answer fits in a 32-bit integer for the given inputs."
+  ],
+  "hints": [
+    "paths[r][c] = paths[r-1][c] + paths[r][c-1].",
+    "A single row of state is enough. There is also a closed form using combinations."
+  ],
+  "testCases": [
+    {
+      "input": [3, 7],
+      "expected": 28
+    },
+    {
+      "input": [3, 2],
+      "expected": 3
+    },
+    {
+      "input": [1, 1],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [7, 3],
+      "expected": 28,
+      "hidden": true
+    },
+    {
+      "input": [3, 3],
+      "expected": 6,
+      "hidden": true
+    },
+    {
+      "input": [10, 10],
+      "expected": 48620,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function uniquePaths(m: number, n: number): number {\n  \n}\n",
+      "functionName": "uniquePaths",
+      "solution": "function uniquePaths(m: number, n: number): number {\n  const row = new Array<number>(n).fill(1)\n  for (let r = 1; r < m; r++) {\n    for (let c = 1; c < n; c++) row[c] += row[c - 1]\n  }\n  return row[n - 1]\n}\n"
+    }
+  }
+}

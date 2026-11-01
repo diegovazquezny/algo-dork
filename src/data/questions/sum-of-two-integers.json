@@ -1,0 +1,65 @@
+{
+  "id": "q-015",
+  "slug": "sum-of-two-integers",
+  "title": "Sum of Two Integers",
+  "difficulty": "medium",
+  "tags": ["blind-75", "binary", "bit-manipulation", "math"],
+  "description": "Given two integers `a` and `b`, return their sum **without using the operators `+` or `-`**.",
+  "examples": [
+    {
+      "input": "a = 1, b = 2",
+      "output": "3"
+    },
+    {
+      "input": "a = 2, b = 3",
+      "output": "5"
+    }
+  ],
+  "constraints": ["-1000 <= a, b <= 1000"],
+  "hints": [
+    "XOR adds two bits without carrying.",
+    "AND then a left shift gives the carries. Repeat until there is no carry left."
+  ],
+  "testCases": [
+    {
+      "input": [1, 2],
+      "expected": 3
+    },
+    {
+      "input": [2, 3],
+      "expected": 5
+    },
+    {
+      "input": [-1, 1],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [-5, 3],
+      "expected": -2,
+      "hidden": true
+    },
+    {
+      "input": [0, 0],
+      "expected": 0,
+      "hidden": true
+    },
+    {
+      "input": [20, 30],
+      "expected": 50,
+      "hidden": true
+    },
+    {
+      "input": [-1000, -1000],
+      "expected": -2000,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function getSum(a: number, b: number): number {\n  \n}\n",
+      "functionName": "getSum",
+      "solution": "function getSum(a: number, b: number): number {\n  while (b !== 0) {\n    const carry = (a & b) << 1\n    a = a ^ b\n    b = carry\n  }\n  return a\n}\n"
+    }
+  }
+}

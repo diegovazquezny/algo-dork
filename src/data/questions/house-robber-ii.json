@@ -1,0 +1,61 @@
+{
+  "id": "q-026",
+  "slug": "house-robber-ii",
+  "title": "House Robber II",
+  "difficulty": "medium",
+  "tags": ["blind-75", "dynamic-programming", "array"],
+  "description": "The houses from *House Robber* now stand in a **circle**, so the first and last houses are neighbors. House `i` holds `nums[i]` dollars, and robbing two adjacent houses triggers the alarm.\n\nReturn the maximum amount you can rob without robbing two adjacent houses.",
+  "examples": [
+    {
+      "input": "nums = [2,3,2]",
+      "output": "3",
+      "explanation": "You cannot rob houses 1 and 3 because they are adjacent in the circle."
+    },
+    {
+      "input": "nums = [1,2,3,1]",
+      "output": "4"
+    }
+  ],
+  "constraints": ["1 <= nums.length <= 100", "0 <= nums[i] <= 1000"],
+  "hints": [
+    "The first and last houses cannot both be robbed.",
+    "Solve the linear problem twice: once without the first house, once without the last, and take the better answer."
+  ],
+  "testCases": [
+    {
+      "input": [[2, 3, 2]],
+      "expected": 3
+    },
+    {
+      "input": [[1, 2, 3, 1]],
+      "expected": 4
+    },
+    {
+      "input": [[1, 2, 3]],
+      "expected": 3,
+      "hidden": true
+    },
+    {
+      "input": [[1]],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [[1, 2]],
+      "expected": 2,
+      "hidden": true
+    },
+    {
+      "input": [[200, 3, 140, 20, 10]],
+      "expected": 340,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function rob(nums: number[]): number {\n  \n}\n",
+      "functionName": "rob",
+      "solution": "function rob(nums: number[]): number {\n  if (nums.length === 1) return nums[0]\n  function line(from: number, to: number): number {\n    let prev = 0\n    let curr = 0\n    for (let i = from; i <= to; i++) {\n      const next = Math.max(curr, prev + nums[i])\n      prev = curr\n      curr = next\n    }\n    return curr\n  }\n  return Math.max(line(0, nums.length - 2), line(1, nums.length - 1))\n}\n"
+    }
+  }
+}
