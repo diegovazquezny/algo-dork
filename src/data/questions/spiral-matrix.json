@@ -1,0 +1,77 @@
+{
+  "id": "q-050",
+  "slug": "spiral-matrix",
+  "title": "Spiral Matrix",
+  "difficulty": "medium",
+  "tags": ["blind-75", "matrix", "array", "simulation"],
+  "description": "Given an `m x n` matrix, return all of its elements in **spiral order**: start at the top-left, go right along the top row, then down the right column, then left along the bottom row, then up the left column, and keep spiraling inward.",
+  "examples": [
+    {
+      "input": "matrix = [[1,2,3],[4,5,6],[7,8,9]]",
+      "output": "[1,2,3,6,9,8,7,4,5]"
+    },
+    {
+      "input": "matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]",
+      "output": "[1,2,3,4,8,12,11,10,9,5,6,7]"
+    }
+  ],
+  "constraints": ["1 <= m, n <= 10", "-100 <= matrix[i][j] <= 100"],
+  "hints": [
+    "Keep four boundaries (top, bottom, left, right) and shrink them after traversing each side.",
+    "After the top row and the right column, check that rows/columns remain before traversing the other two sides."
+  ],
+  "testCases": [
+    {
+      "input": [
+        [
+          [1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9]
+        ]
+      ],
+      "expected": [1, 2, 3, 6, 9, 8, 7, 4, 5]
+    },
+    {
+      "input": [
+        [
+          [1, 2, 3, 4],
+          [5, 6, 7, 8],
+          [9, 10, 11, 12]
+        ]
+      ],
+      "expected": [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
+    },
+    {
+      "input": [[[1]]],
+      "expected": [1],
+      "hidden": true
+    },
+    {
+      "input": [[[1, 2]]],
+      "expected": [1, 2],
+      "hidden": true
+    },
+    {
+      "input": [[[1], [2], [3]]],
+      "expected": [1, 2, 3],
+      "hidden": true
+    },
+    {
+      "input": [
+        [
+          [1, 2],
+          [3, 4]
+        ]
+      ],
+      "expected": [1, 2, 4, 3],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function spiralOrder(matrix: number[][]): number[] {\n  \n}\n",
+      "functionName": "spiralOrder",
+      "solution": "function spiralOrder(matrix: number[][]): number[] {\n  const result: number[] = []\n  let top = 0\n  let bottom = matrix.length - 1\n  let left = 0\n  let right = matrix[0].length - 1\n  while (top <= bottom && left <= right) {\n    for (let c = left; c <= right; c++) result.push(matrix[top][c])\n    top++\n    for (let r = top; r <= bottom; r++) result.push(matrix[r][right])\n    right--\n    if (top <= bottom) {\n      for (let c = right; c >= left; c--) result.push(matrix[bottom][c])\n      bottom--\n    }\n    if (left <= right) {\n      for (let r = bottom; r >= top; r--) result.push(matrix[r][left])\n      left++\n    }\n  }\n  return result\n}\n"
+    }
+  }
+}

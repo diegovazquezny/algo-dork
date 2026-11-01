@@ -1,0 +1,65 @@
+{
+  "id": "q-057",
+  "slug": "group-anagrams",
+  "title": "Group Anagrams",
+  "difficulty": "medium",
+  "tags": ["blind-75", "string", "hash-table", "sorting"],
+  "description": "Given an array of strings `strs`, group the anagrams together and return the groups.\n\nTwo strings are anagrams if they contain the same letters the same number of times. The groups may be returned in any order, and the strings inside a group may be in any order.",
+  "examples": [
+    {
+      "input": "strs = [\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]",
+      "output": "[[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]"
+    },
+    {
+      "input": "strs = [\"\"]",
+      "output": "[[\"\"]]"
+    }
+  ],
+  "constraints": [
+    "1 <= strs.length <= 10^4",
+    "0 <= strs[i].length <= 100",
+    "strs[i] consists of lowercase English letters."
+  ],
+  "hints": [
+    "Anagrams become identical when their letters are sorted.",
+    "Use a map from the sorted word (or a 26-letter count signature) to the list of words that share it."
+  ],
+  "comparison": "unordered-deep",
+  "testCases": [
+    {
+      "input": [["eat", "tea", "tan", "ate", "nat", "bat"]],
+      "expected": [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]
+    },
+    {
+      "input": [[""]],
+      "expected": [[""]]
+    },
+    {
+      "input": [["a"]],
+      "expected": [["a"]],
+      "hidden": true
+    },
+    {
+      "input": [["abc", "bca", "cab", "xyz"]],
+      "expected": [["abc", "bca", "cab"], ["xyz"]],
+      "hidden": true
+    },
+    {
+      "input": [["ab", "ba", "ab"]],
+      "expected": [["ab", "ba", "ab"]],
+      "hidden": true
+    },
+    {
+      "input": [["ddddddddddg", "dgggggggggg"]],
+      "expected": [["ddddddddddg"], ["dgggggggggg"]],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function groupAnagrams(strs: string[]): string[][] {\n  \n}\n",
+      "functionName": "groupAnagrams",
+      "solution": "function groupAnagrams(strs: string[]): string[][] {\n  const groups = new Map<string, string[]>()\n  for (const s of strs) {\n    const key = [...s].sort().join('')\n    const list = groups.get(key)\n    if (list) list.push(s)\n    else groups.set(key, [s])\n  }\n  return [...groups.values()]\n}\n"
+    }
+  }
+}

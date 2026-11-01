@@ -1,0 +1,72 @@
+{
+  "id": "q-047",
+  "slug": "remove-nth-node-from-end-of-list",
+  "title": "Remove Nth Node From End of List",
+  "difficulty": "medium",
+  "tags": ["blind-75", "linked-list", "two-pointers"],
+  "description": "Given the `head` of a linked list and an integer `n`, remove the `n`-th node **from the end** of the list and return the head of the resulting list.\n\nTry to do it in **one pass**.",
+  "examples": [
+    {
+      "input": "head = [1,2,3,4,5], n = 2",
+      "output": "[1,2,3,5]"
+    },
+    {
+      "input": "head = [1], n = 1",
+      "output": "[]"
+    },
+    {
+      "input": "head = [1,2], n = 1",
+      "output": "[1]"
+    }
+  ],
+  "constraints": [
+    "1 <= number of nodes <= 30",
+    "0 <= Node.val <= 100",
+    "1 <= n <= number of nodes"
+  ],
+  "hints": [
+    "Use two pointers that are n nodes apart; when the front one reaches the end, the back one is just before the node to remove.",
+    "A dummy node before the head makes removing the first node easy."
+  ],
+  "signature": {
+    "params": ["ListNode", "json"],
+    "returns": "ListNode"
+  },
+  "testCases": [
+    {
+      "input": [[1, 2, 3, 4, 5], 2],
+      "expected": [1, 2, 3, 5]
+    },
+    {
+      "input": [[1], 1],
+      "expected": []
+    },
+    {
+      "input": [[1, 2], 1],
+      "expected": [1],
+      "hidden": true
+    },
+    {
+      "input": [[1, 2], 2],
+      "expected": [2],
+      "hidden": true
+    },
+    {
+      "input": [[1, 2, 3], 3],
+      "expected": [2, 3],
+      "hidden": true
+    },
+    {
+      "input": [[10, 20, 30, 40], 4],
+      "expected": [20, 30, 40],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class ListNode {\n  val: number\n  next: ListNode | null\n  constructor(val?: number, next?: ListNode | null)\n}\n\nfunction removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {\n  \n}\n",
+      "functionName": "removeNthFromEnd",
+      "solution": "declare class ListNode {\n  val: number\n  next: ListNode | null\n  constructor(val?: number, next?: ListNode | null)\n}\n\nfunction removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {\n  const dummy = new ListNode(0, head)\n  let fast: ListNode | null = dummy\n  let slow: ListNode = dummy\n  for (let i = 0; i < n; i++) fast = fast!.next\n  while (fast!.next) {\n    fast = fast!.next\n    slow = slow.next!\n  }\n  slow.next = slow.next!.next\n  return dummy.next\n}\n"
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "q-059",
+  "slug": "longest-palindromic-substring",
+  "title": "Longest Palindromic Substring",
+  "difficulty": "medium",
+  "tags": ["blind-75", "string", "dynamic-programming"],
+  "description": "Given a string `s`, return its **longest palindromic substring** (a contiguous substring that reads the same forwards and backwards).\n\nIf several palindromes share the maximum length, return the one that starts **earliest** in `s`.",
+  "examples": [
+    {
+      "input": "s = \"babad\"",
+      "output": "\"bab\"",
+      "explanation": "\"aba\" is also valid, but \"bab\" starts earlier."
+    },
+    {
+      "input": "s = \"cbbd\"",
+      "output": "\"bb\""
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 1000",
+    "s consists of digits and English letters."
+  ],
+  "hints": [
+    "Every palindrome has a center: a character (odd length) or the gap between two characters (even length).",
+    "Expand outward from each of the 2n - 1 centers while the characters match."
+  ],
+  "testCases": [
+    {
+      "input": ["babad"],
+      "expected": "bab"
+    },
+    {
+      "input": ["cbbd"],
+      "expected": "bb"
+    },
+    {
+      "input": ["a"],
+      "expected": "a",
+      "hidden": true
+    },
+    {
+      "input": ["ac"],
+      "expected": "a",
+      "hidden": true
+    },
+    {
+      "input": ["forgeeksskeegfor"],
+      "expected": "geeksskeeg",
+      "hidden": true
+    },
+    {
+      "input": ["abb"],
+      "expected": "bb",
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function longestPalindrome(s: string): string {\n  \n}\n",
+      "functionName": "longestPalindrome",
+      "solution": "function longestPalindrome(s: string): string {\n  let start = 0\n  let bestLen = 1\n  function expand(l: number, r: number) {\n    while (l >= 0 && r < s.length && s[l] === s[r]) {\n      if (r - l + 1 > bestLen || (r - l + 1 === bestLen && l < start)) {\n        bestLen = r - l + 1\n        start = l\n      }\n      l--\n      r++\n    }\n  }\n  for (let i = 0; i < s.length; i++) {\n    expand(i, i)\n    expand(i, i + 1)\n  }\n  return s.slice(start, start + bestLen)\n}\n"
+    }
+  }
+}

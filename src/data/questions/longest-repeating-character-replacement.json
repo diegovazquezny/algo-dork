@@ -1,0 +1,66 @@
+{
+  "id": "q-054",
+  "slug": "longest-repeating-character-replacement",
+  "title": "Longest Repeating Character Replacement",
+  "difficulty": "medium",
+  "tags": ["blind-75", "string", "sliding-window"],
+  "description": "You are given a string `s` of uppercase letters and an integer `k`. You may change **at most `k`** characters of the string to any other uppercase letter.\n\nReturn the length of the longest substring that can consist of one repeated letter after those changes.",
+  "examples": [
+    {
+      "input": "s = \"ABAB\", k = 2",
+      "output": "4",
+      "explanation": "Replace both A's with B (or both B's with A)."
+    },
+    {
+      "input": "s = \"AABABBA\", k = 1",
+      "output": "4",
+      "explanation": "Change the middle A to B to get \"AABBBBA\"; the substring \"BBBB\" has length 4."
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 10^5",
+    "s consists of uppercase English letters.",
+    "0 <= k <= s.length"
+  ],
+  "hints": [
+    "A window is valid if (window length - count of its most frequent letter) <= k.",
+    "Grow the window to the right and shrink from the left only when it becomes invalid. The best length never needs to shrink."
+  ],
+  "testCases": [
+    {
+      "input": ["ABAB", 2],
+      "expected": 4
+    },
+    {
+      "input": ["AABABBA", 1],
+      "expected": 4
+    },
+    {
+      "input": ["A", 0],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": ["ABCDE", 1],
+      "expected": 2,
+      "hidden": true
+    },
+    {
+      "input": ["AAAA", 2],
+      "expected": 4,
+      "hidden": true
+    },
+    {
+      "input": ["ABBB", 2],
+      "expected": 4,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function characterReplacement(s: string, k: number): number {\n  \n}\n",
+      "functionName": "characterReplacement",
+      "solution": "function characterReplacement(s: string, k: number): number {\n  const counts = new Array<number>(26).fill(0)\n  let left = 0\n  let maxCount = 0\n  let best = 0\n  for (let right = 0; right < s.length; right++) {\n    const idx = s.charCodeAt(right) - 65\n    counts[idx]++\n    maxCount = Math.max(maxCount, counts[idx])\n    while (right - left + 1 - maxCount > k) {\n      counts[s.charCodeAt(left) - 65]--\n      left++\n    }\n    best = Math.max(best, right - left + 1)\n  }\n  return best\n}\n"
+    }
+  }
+}

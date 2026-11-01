@@ -1,0 +1,68 @@
+{
+  "id": "q-055",
+  "slug": "minimum-window-substring",
+  "title": "Minimum Window Substring",
+  "difficulty": "hard",
+  "tags": ["blind-75", "string", "sliding-window", "hash-table"],
+  "description": "Given two strings `s` and `t`, return the **shortest substring of `s`** that contains every character of `t`, counting duplicates (if `t` has two `B`s, the window needs at least two `B`s).\n\nIf no such substring exists, return `\"\"`. If several windows share the minimum length, return the **leftmost** one.",
+  "examples": [
+    {
+      "input": "s = \"ADOBECODEBANC\", t = \"ABC\"",
+      "output": "\"BANC\""
+    },
+    {
+      "input": "s = \"a\", t = \"a\"",
+      "output": "\"a\""
+    },
+    {
+      "input": "s = \"a\", t = \"aa\"",
+      "output": "\"\"",
+      "explanation": "There are not enough a's."
+    }
+  ],
+  "constraints": [
+    "1 <= s.length, t.length <= 10^5",
+    "s and t consist of uppercase and lowercase English letters."
+  ],
+  "hints": [
+    "Count how many of each character you still need, using a map built from t.",
+    "Expand the right edge until the window is valid, then shrink the left edge as far as it stays valid, recording the best window."
+  ],
+  "testCases": [
+    {
+      "input": ["ADOBECODEBANC", "ABC"],
+      "expected": "BANC"
+    },
+    {
+      "input": ["a", "a"],
+      "expected": "a"
+    },
+    {
+      "input": ["a", "aa"],
+      "expected": "",
+      "hidden": true
+    },
+    {
+      "input": ["ab", "b"],
+      "expected": "b",
+      "hidden": true
+    },
+    {
+      "input": ["bba", "ab"],
+      "expected": "ba",
+      "hidden": true
+    },
+    {
+      "input": ["ADOBECODEBANC", "ABB"],
+      "expected": "BECODEBA",
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function minWindow(s: string, t: string): string {\n  \n}\n",
+      "functionName": "minWindow",
+      "solution": "function minWindow(s: string, t: string): string {\n  const need = new Map<string, number>()\n  for (const ch of t) need.set(ch, (need.get(ch) ?? 0) + 1)\n  let missing = t.length\n  let left = 0\n  let bestStart = 0\n  let bestLen = Infinity\n  for (let right = 0; right < s.length; right++) {\n    const ch = s[right]\n    if (need.has(ch)) {\n      if (need.get(ch)! > 0) missing--\n      need.set(ch, need.get(ch)! - 1)\n    }\n    while (missing === 0) {\n      if (right - left + 1 < bestLen) {\n        bestLen = right - left + 1\n        bestStart = left\n      }\n      const l = s[left]\n      if (need.has(l)) {\n        need.set(l, need.get(l)! + 1)\n        if (need.get(l)! > 0) missing++\n      }\n      left++\n    }\n  }\n  return bestLen === Infinity ? '' : s.slice(bestStart, bestStart + bestLen)\n}\n"
+    }
+  }
+}

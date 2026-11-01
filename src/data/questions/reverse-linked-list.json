@@ -1,0 +1,68 @@
+{
+  "id": "q-043",
+  "slug": "reverse-linked-list",
+  "title": "Reverse Linked List",
+  "difficulty": "easy",
+  "tags": ["blind-75", "linked-list", "recursion"],
+  "description": "Given the `head` of a singly linked list, reverse the list and return the new head.\n\nIn the test data a list is written as an array of its values, so `[1,2,3]` is `1 -> 2 -> 3` and `[]` is an empty list (`null`).",
+  "examples": [
+    {
+      "input": "head = [1,2,3,4,5]",
+      "output": "[5,4,3,2,1]"
+    },
+    {
+      "input": "head = [1,2]",
+      "output": "[2,1]"
+    },
+    {
+      "input": "head = []",
+      "output": "[]"
+    }
+  ],
+  "constraints": ["0 <= number of nodes <= 5000", "-5000 <= Node.val <= 5000"],
+  "hints": [
+    "Walk the list while keeping a pointer to the previous node; point each node back at it.",
+    "Remember to save `next` before you overwrite it. A recursive solution is also possible."
+  ],
+  "signature": {
+    "params": ["ListNode"],
+    "returns": "ListNode"
+  },
+  "testCases": [
+    {
+      "input": [[1, 2, 3, 4, 5]],
+      "expected": [5, 4, 3, 2, 1]
+    },
+    {
+      "input": [[1, 2]],
+      "expected": [2, 1]
+    },
+    {
+      "input": [[]],
+      "expected": [],
+      "hidden": true
+    },
+    {
+      "input": [[7]],
+      "expected": [7],
+      "hidden": true
+    },
+    {
+      "input": [[1, 2, 3]],
+      "expected": [3, 2, 1],
+      "hidden": true
+    },
+    {
+      "input": [[0, 0, 1]],
+      "expected": [1, 0, 0],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class ListNode {\n  val: number\n  next: ListNode | null\n  constructor(val?: number, next?: ListNode | null)\n}\n\nfunction reverseList(head: ListNode | null): ListNode | null {\n  \n}\n",
+      "functionName": "reverseList",
+      "solution": "declare class ListNode {\n  val: number\n  next: ListNode | null\n  constructor(val?: number, next?: ListNode | null)\n}\n\nfunction reverseList(head: ListNode | null): ListNode | null {\n  let prev: ListNode | null = null\n  let curr = head\n  while (curr) {\n    const next = curr.next\n    curr.next = prev\n    prev = curr\n    curr = next\n  }\n  return prev\n}\n"
+    }
+  }
+}

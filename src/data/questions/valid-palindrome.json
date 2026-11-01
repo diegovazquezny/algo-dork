@@ -1,0 +1,69 @@
+{
+  "id": "q-058",
+  "slug": "valid-palindrome",
+  "title": "Valid Palindrome",
+  "difficulty": "easy",
+  "tags": ["blind-75", "string", "two-pointers"],
+  "description": "A phrase is a **palindrome** if, after converting every uppercase letter to lowercase and removing every character that is not a letter or digit, it reads the same forwards and backwards.\n\nGiven a string `s`, return `true` if it is a palindrome under that rule, otherwise `false`.",
+  "examples": [
+    {
+      "input": "s = \"A man, a plan, a canal: Panama\"",
+      "output": "true",
+      "explanation": "\"amanaplanacanalpanama\" is a palindrome."
+    },
+    {
+      "input": "s = \"race a car\"",
+      "output": "false"
+    },
+    {
+      "input": "s = \" \"",
+      "output": "true",
+      "explanation": "After removing non-alphanumeric characters the string is empty, which counts as a palindrome."
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 2 * 10^5",
+    "s consists of printable ASCII characters."
+  ],
+  "hints": [
+    "Use two pointers moving inward from both ends.",
+    "Skip any character that is not a letter or digit, and compare the rest ignoring case."
+  ],
+  "testCases": [
+    {
+      "input": ["A man, a plan, a canal: Panama"],
+      "expected": true
+    },
+    {
+      "input": ["race a car"],
+      "expected": false
+    },
+    {
+      "input": [" "],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": ["0P"],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": ["ab_a"],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [".,"],
+      "expected": true,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function isPalindrome(s: string): boolean {\n  \n}\n",
+      "functionName": "isPalindrome",
+      "solution": "function isPalindrome(s: string): boolean {\n  const isAlnum = (ch: string) => /[a-z0-9]/i.test(ch)\n  let l = 0\n  let r = s.length - 1\n  while (l < r) {\n    while (l < r && !isAlnum(s[l])) l++\n    while (l < r && !isAlnum(s[r])) r--\n    if (s[l].toLowerCase() !== s[r].toLowerCase()) return false\n    l++\n    r--\n  }\n  return true\n}\n"
+    }
+  }
+}

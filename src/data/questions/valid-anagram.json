@@ -1,0 +1,63 @@
+{
+  "id": "q-056",
+  "slug": "valid-anagram",
+  "title": "Valid Anagram",
+  "difficulty": "easy",
+  "tags": ["blind-75", "string", "hash-table", "sorting"],
+  "description": "Given two strings `s` and `t`, return `true` if `t` is an **anagram** of `s` (it uses exactly the same letters the same number of times, in any order), otherwise `false`.",
+  "examples": [
+    {
+      "input": "s = \"anagram\", t = \"nagaram\"",
+      "output": "true"
+    },
+    {
+      "input": "s = \"rat\", t = \"car\"",
+      "output": "false"
+    }
+  ],
+  "constraints": [
+    "1 <= s.length, t.length <= 5 * 10^4",
+    "s and t consist of lowercase English letters."
+  ],
+  "hints": [
+    "If the lengths differ, the answer is false.",
+    "Count the letters of s up and the letters of t down; every count must end at zero."
+  ],
+  "testCases": [
+    {
+      "input": ["anagram", "nagaram"],
+      "expected": true
+    },
+    {
+      "input": ["rat", "car"],
+      "expected": false
+    },
+    {
+      "input": ["a", "ab"],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": ["aacc", "ccac"],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": ["listen", "silent"],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": ["z", "z"],
+      "expected": true,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function isAnagram(s: string, t: string): boolean {\n  \n}\n",
+      "functionName": "isAnagram",
+      "solution": "function isAnagram(s: string, t: string): boolean {\n  if (s.length !== t.length) return false\n  const counts = new Array<number>(26).fill(0)\n  for (let i = 0; i < s.length; i++) {\n    counts[s.charCodeAt(i) - 97]++\n    counts[t.charCodeAt(i) - 97]--\n  }\n  return counts.every((c) => c === 0)\n}\n"
+    }
+  }
+}

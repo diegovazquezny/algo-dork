@@ -1,0 +1,71 @@
+{
+  "id": "q-061",
+  "slug": "encode-and-decode-strings",
+  "title": "Encode and Decode Strings",
+  "difficulty": "medium",
+  "tags": ["blind-75", "string", "design"],
+  "description": "Design an algorithm to **encode a list of strings into a single string**, and a matching algorithm to **decode that string back into the original list**.\n\nImplement both functions. The test calls `decode(encode(strs))` and expects the original list back. The strings may contain **any characters**, including digits, `#`, commas, quotes and spaces, and may be empty. Your encoded form must be a string, and it must not depend on any state shared between the two calls.",
+  "examples": [
+    {
+      "input": "strs = [\"lint\",\"code\",\"love\",\"you\"]",
+      "output": "[\"lint\",\"code\",\"love\",\"you\"]",
+      "explanation": "decode(encode(strs)) returns the same list."
+    },
+    {
+      "input": "strs = [\"we\",\"say\",\":\",\"yes\"]",
+      "output": "[\"we\",\"say\",\":\",\"yes\"]"
+    }
+  ],
+  "constraints": [
+    "0 <= strs.length <= 200",
+    "0 <= strs[i].length <= 200",
+    "strs[i] may contain any ASCII character."
+  ],
+  "hints": [
+    "A separator character is not safe, because the strings might contain it.",
+    "Prefix every string with its length and a delimiter (for example `4#abcd`). When decoding, read the length first, then take exactly that many characters."
+  ],
+  "kind": "roundtrip",
+  "signature": {
+    "params": ["json"],
+    "returns": "json"
+  },
+  "testCases": [
+    {
+      "input": [["lint", "code", "love", "you"]],
+      "expected": ["lint", "code", "love", "you"]
+    },
+    {
+      "input": [["we", "say", ":", "yes"]],
+      "expected": ["we", "say", ":", "yes"]
+    },
+    {
+      "input": [[""]],
+      "expected": [""],
+      "hidden": true
+    },
+    {
+      "input": [[]],
+      "expected": [],
+      "hidden": true
+    },
+    {
+      "input": [["4#abcd", "#", "", "12#"]],
+      "expected": ["4#abcd", "#", "", "12#"],
+      "hidden": true
+    },
+    {
+      "input": [["a,b", "\"quoted\"", " spaces "]],
+      "expected": ["a,b", "\"quoted\"", " spaces "],
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "function encode(strs: string[]): string {\n  \n}\n\nfunction decode(s: string): string[] {\n  \n}\n",
+      "functionName": "encode",
+      "decoderName": "decode",
+      "solution": "function encode(strs: string[]): string {\n  return strs.map((s) => s.length + '#' + s).join('')\n}\n\nfunction decode(s: string): string[] {\n  const result: string[] = []\n  let i = 0\n  while (i < s.length) {\n    const hash = s.indexOf('#', i)\n    const len = Number(s.slice(i, hash))\n    result.push(s.slice(hash + 1, hash + 1 + len))\n    i = hash + 1 + len\n  }\n  return result\n}\n"
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "id": "q-044",
+  "slug": "linked-list-cycle",
+  "title": "Linked List Cycle",
+  "difficulty": "easy",
+  "tags": ["blind-75", "linked-list", "two-pointers", "hash-table"],
+  "description": "Given the `head` of a linked list, return `true` if the list contains a **cycle** (some node's `next` points back to an earlier node), otherwise `false`.\n\nIn the test data a list is written as `{ \"values\": [...], \"pos\": p }`: its node values in order, and `pos`, the index of the node that the last node's `next` points to (`-1` means no cycle). `pos` is not passed to your function.",
+  "examples": [
+    {
+      "input": "head = { values: [3,2,0,-4], pos: 1 }",
+      "output": "true",
+      "explanation": "The tail connects back to the node at index 1."
+    },
+    {
+      "input": "head = { values: [1], pos: -1 }",
+      "output": "false"
+    }
+  ],
+  "constraints": ["0 <= number of nodes <= 10^4", "-10^5 <= Node.val <= 10^5"],
+  "hints": [
+    "A set of visited nodes works but uses O(n) memory.",
+    "Floyd's tortoise and hare: move one pointer by 1 and another by 2. If they ever meet, there is a cycle."
+  ],
+  "signature": {
+    "params": ["CyclicList"],
+    "returns": "json"
+  },
+  "testCases": [
+    {
+      "input": [
+        {
+          "values": [3, 2, 0, -4],
+          "pos": 1
+        }
+      ],
+      "expected": true
+    },
+    {
+      "input": [
+        {
+          "values": [1, 2],
+          "pos": 0
+        }
+      ],
+      "expected": true
+    },
+    {
+      "input": [
+        {
+          "values": [1],
+          "pos": -1
+        }
+      ],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": [
+        {
+          "values": [],
+          "pos": -1
+        }
+      ],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": [
+        {
+          "values": [1, 2, 3],
+          "pos": -1
+        }
+      ],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": [
+        {
+          "values": [1],
+          "pos": 0
+        }
+      ],
+      "expected": true,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "starterCode": "declare class ListNode {\n  val: number\n  next: ListNode | null\n  constructor(val?: number, next?: ListNode | null)\n}\n\nfunction hasCycle(head: ListNode | null): boolean {\n  \n}\n",
+      "functionName": "hasCycle",
+      "solution": "declare class ListNode {\n  val: number\n  next: ListNode | null\n  constructor(val?: number, next?: ListNode | null)\n}\n\nfunction hasCycle(head: ListNode | null): boolean {\n  let slow = head\n  let fast = head\n  while (fast && fast.next) {\n    slow = slow!.next\n    fast = fast.next.next\n    if (slow === fast) return true\n  }\n  return false\n}\n"
+    }
+  }
+}
