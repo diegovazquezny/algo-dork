@@ -1,0 +1,76 @@
+{
+  "id": "q-002",
+  "slug": "valid-parentheses",
+  "title": "Valid Parentheses",
+  "difficulty": "easy",
+  "tags": [
+    "string",
+    "stack"
+  ],
+  "description": "Given a string `s` containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.\n\nA string is valid if open brackets are closed by the same type of bracket, in the correct order, and every close bracket has a matching open bracket.",
+  "examples": [
+    {
+      "input": "s = \"()[]{}\"",
+      "output": "true"
+    },
+    {
+      "input": "s = \"(]\"",
+      "output": "false"
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 10^4",
+    "s consists only of parentheses characters."
+  ],
+  "hints": [
+    "Use a stack of expected closing brackets."
+  ],
+  "testCases": [
+    {
+      "input": [
+        "()"
+      ],
+      "expected": true
+    },
+    {
+      "input": [
+        "()[]{}"
+      ],
+      "expected": true
+    },
+    {
+      "input": [
+        "(]"
+      ],
+      "expected": false
+    },
+    {
+      "input": [
+        "([)]"
+      ],
+      "expected": false,
+      "hidden": true
+    },
+    {
+      "input": [
+        "{[]}"
+      ],
+      "expected": true,
+      "hidden": true
+    },
+    {
+      "input": [
+        "("
+      ],
+      "expected": false,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "functionName": "isValid",
+      "starterCode": "function isValid(s: string): boolean {\n  \n}\n",
+      "solution": "function isValid(s: string): boolean {\n  const pairs: Record<string, string> = { ')': '(', ']': '[', '}': '{' }\n  const stack: string[] = []\n  for (const ch of s) {\n    if (ch in pairs) {\n      if (stack.pop() !== pairs[ch]) return false\n    } else {\n      stack.push(ch)\n    }\n  }\n  return stack.length === 0\n}\n"
+    }
+  }
+}

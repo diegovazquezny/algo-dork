@@ -1,0 +1,71 @@
+{
+  "id": "q-005",
+  "slug": "climbing-stairs",
+  "title": "Climbing Stairs",
+  "difficulty": "easy",
+  "tags": [
+    "math",
+    "dynamic-programming"
+  ],
+  "description": "You are climbing a staircase with `n` steps. Each time you can climb **1 or 2** steps. In how many distinct ways can you climb to the top?",
+  "examples": [
+    {
+      "input": "n = 2",
+      "output": "2",
+      "explanation": "1 + 1, or 2."
+    },
+    {
+      "input": "n = 3",
+      "output": "3",
+      "explanation": "1+1+1, 1+2, 2+1."
+    }
+  ],
+  "constraints": [
+    "1 <= n <= 45"
+  ],
+  "hints": [
+    "ways(n) = ways(n - 1) + ways(n - 2)."
+  ],
+  "testCases": [
+    {
+      "input": [
+        2
+      ],
+      "expected": 2
+    },
+    {
+      "input": [
+        3
+      ],
+      "expected": 3
+    },
+    {
+      "input": [
+        1
+      ],
+      "expected": 1,
+      "hidden": true
+    },
+    {
+      "input": [
+        10
+      ],
+      "expected": 89,
+      "hidden": true
+    },
+    {
+      "input": [
+        45
+      ],
+      "expected": 1836311903,
+      "hidden": true
+    }
+  ],
+  "languages": {
+    "typescript": {
+      "functionName": "climbStairs",
+      "starterCode": "function climbStairs(n: number): number {\n  \n}\n",
+      "solution": "function climbStairs(n: number): number {\n  let a = 1\n  let b = 1\n  for (let i = 2; i <= n; i++) {\n    ;[a, b] = [b, a + b]\n  }\n  return b\n}\n"
+    }
+  }
+}
