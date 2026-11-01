@@ -5,12 +5,23 @@ import type { Submission } from '#/domain/progress'
 
 function memStorage() {
   const m = new Map<string, string>()
-  return { getItem: (k: string) => m.get(k) ?? null, setItem: (k: string, v: string) => void m.set(k, v), m }
+  return {
+    getItem: (k: string) => m.get(k) ?? null,
+    setItem: (k: string, v: string) => void m.set(k, v),
+    m,
+  }
 }
 
 const sub = (status: Submission['status'], i = 0): Submission => ({
-  id: String(i), language: 'typescript', code: 'x', passed: 1, total: 1, status,
-  runtimeMs: 1, submittedAt: i, results: [],
+  id: String(i),
+  language: 'typescript',
+  code: 'x',
+  passed: 1,
+  total: 1,
+  status,
+  runtimeMs: 1,
+  submittedAt: i,
+  results: [],
 })
 
 describe('JsonFileQuestionStore', () => {
@@ -18,7 +29,9 @@ describe('JsonFileQuestionStore', () => {
     const store = new JsonFileQuestionStore()
     const list = await store.list()
     expect(list.length).toBeGreaterThanOrEqual(6)
-    expect((await store.getBySlug('two-sum'))?.languages.typescript.functionName).toBe('twoSum')
+    expect(
+      (await store.getBySlug('two-sum'))?.languages.typescript.functionName,
+    ).toBe('twoSum')
     expect(await store.getBySlug('nope')).toBeNull()
   })
   it('rejects invalid question JSON', () => {
@@ -36,10 +49,17 @@ describe('LocalStorageProgressStore', () => {
   })
   it('tracks status and caps history', async () => {
     const store = new LocalStorageProgressStore(memStorage())
-    expect((await store.recordSubmission('q', sub('wrong-answer'))).status).toBe('attempted')
-    expect((await store.recordSubmission('q', sub('accepted', 1))).status).toBe('solved')
-    expect((await store.recordSubmission('q', sub('wrong-answer', 2))).status).toBe('solved')
-    for (let i = 3; i < 30; i++) await store.recordSubmission('q', sub('wrong-answer', i))
+    expect(
+      (await store.recordSubmission('q', sub('wrong-answer'))).status,
+    ).toBe('attempted')
+    expect((await store.recordSubmission('q', sub('accepted', 1))).status).toBe(
+      'solved',
+    )
+    expect(
+      (await store.recordSubmission('q', sub('wrong-answer', 2))).status,
+    ).toBe('solved')
+    for (let i = 3; i < 30; i++)
+      await store.recordSubmission('q', sub('wrong-answer', i))
     const p = await store.get('q')
     expect(p.submissions).toHaveLength(20)
     expect(p.submissions[0].id).toBe('29')
@@ -47,7 +67,11 @@ describe('LocalStorageProgressStore', () => {
   it('returns default settings and persists changes', async () => {
     const store = new LocalStorageProgressStore(memStorage())
     expect((await store.getSettings()).tabSize).toBe(2)
-    await store.saveSettings({ formatOnSave: false, tabSize: 4, theme: 'light' })
+    await store.saveSettings({
+      formatOnSave: false,
+      tabSize: 4,
+      theme: 'light',
+    })
     expect((await store.getSettings()).theme).toBe('light')
   })
 })

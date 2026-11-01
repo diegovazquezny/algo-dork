@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react'
-import { DEFAULT_SETTINGS, type Settings } from '#/domain/progress'
+import { DEFAULT_SETTINGS } from '#/domain/progress'
+import type { Settings } from '#/domain/progress'
 
 export type SettingsValue = {
   settings: Settings

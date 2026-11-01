@@ -5,7 +5,8 @@ const runners: LanguageRunner[] = [new TypeScriptRunner()]
 
 export function getRunner(languageId: string): LanguageRunner {
   const runner = runners.find((r) => r.id === languageId)
-  if (!runner) throw new Error(`No runner registered for language "${languageId}"`)
+  if (!runner)
+    throw new Error(`No runner registered for language "${languageId}"`)
   return runner
 }
 

@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-router'
 
 import type { DataContext } from '#/data'
-import { DEFAULT_SETTINGS, type Settings } from '#/domain/progress'
+import type { Settings } from '#/domain/progress'
 import { SettingsContext } from '#/lib/settings-context'
 
 import '../styles.css'
@@ -19,7 +19,7 @@ export const Route = createRootRouteWithContext<{ data: DataContext }>()({
 function RootComponent() {
   const initial = Route.useLoaderData()
   const { data } = Route.useRouteContext()
-  const [settings, setSettings] = useState<Settings>(initial ?? DEFAULT_SETTINGS)
+  const [settings, setSettings] = useState<Settings>(initial)
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', settings.theme === 'dark')
@@ -46,7 +46,9 @@ function RootComponent() {
           <button
             type="button"
             className="rounded px-2 py-1 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700"
-            onClick={() => update({ theme: settings.theme === 'dark' ? 'light' : 'dark' })}
+            onClick={() =>
+              update({ theme: settings.theme === 'dark' ? 'light' : 'dark' })
+            }
           >
             {settings.theme === 'dark' ? '☀ Light' : '☾ Dark'}
           </button>

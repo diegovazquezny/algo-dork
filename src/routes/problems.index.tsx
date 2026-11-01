@@ -2,7 +2,8 @@ import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { z } from 'zod'
 
-import { DIFFICULTIES, type Difficulty } from '#/domain/question'
+import { DIFFICULTIES } from '#/domain/question'
+import type { Difficulty } from '#/domain/question'
 import type { QuestionProgress } from '#/domain/progress'
 import { allTags, filterQuestions } from '#/lib/filter'
 
@@ -37,12 +38,16 @@ const statusIcon: Record<QuestionProgress['status'], string> = {
 }
 
 function ProblemsPage() {
-  const { questions, progress } = Route.useLoaderData()
+  const { questions, progress: progressById } = Route.useLoaderData()
+  const progress: Partial<Record<string, QuestionProgress>> = progressById
   const search = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
 
   const tags = useMemo(() => allTags(questions), [questions])
-  const filtered = useMemo(() => filterQuestions(questions, search), [questions, search])
+  const filtered = useMemo(
+    () => filterQuestions(questions, search),
+    [questions, search],
+  )
   const selected = search.tags ?? []
 
   const setSearch = (patch: Partial<typeof search>) =>
@@ -59,7 +64,9 @@ function ProblemsPage() {
 
   const toggleTag = (tag: string) =>
     setSearch({
-      tags: selected.includes(tag) ? selected.filter((t) => t !== tag) : [...selected, tag],
+      tags: selected.includes(tag)
+        ? selected.filter((t) => t !== tag)
+        : [...selected, tag],
     })
 
   return (
@@ -74,7 +81,12 @@ function ProblemsPage() {
         />
         <select
           value={search.difficulty ?? ''}
-          onChange={(e) => setSearch({ difficulty: (e.target.value || undefined) as Difficulty | undefined })}
+          onChange={(e) =>
+            setSearch({
+              difficulty: (e.target.value || undefined) as
+                Difficulty | undefined,
+            })
+          }
           className="rounded border border-zinc-300 bg-transparent px-2 py-1.5 text-sm dark:border-zinc-600 dark:bg-zinc-900"
         >
           <option value="">All difficulties</option>
@@ -116,23 +128,41 @@ function ProblemsPage() {
         </thead>
         <tbody>
           {filtered.map((q) => (
-            <tr key={q.id} className="border-b border-zinc-100 hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800">
-              <td className="py-2 text-emerald-500" title={progress[q.id]?.status ?? 'unsolved'}>
+            <tr
+              key={q.id}
+              className="border-b border-zinc-100 hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+            >
+              <td
+                className="py-2 text-emerald-500"
+                title={progress[q.id]?.status ?? 'unsolved'}
+              >
                 {statusIcon[progress[q.id]?.status ?? 'unsolved']}
               </td>
               <td className="py-2">
-                <Link to="/problems/$slug" params={{ slug: q.slug }} className="font-medium hover:text-amber-500">
+                <Link
+                  to="/problems/$slug"
+                  params={{ slug: q.slug }}
+                  className="font-medium hover:text-amber-500"
+                >
                   {q.title}
                 </Link>
               </td>
-              <td className={'py-2 capitalize ' + difficultyColor[q.difficulty]}>{q.difficulty}</td>
-              <td className="py-2 text-xs text-zinc-500">{q.tags.join(', ')}</td>
+              <td
+                className={'py-2 capitalize ' + difficultyColor[q.difficulty]}
+              >
+                {q.difficulty}
+              </td>
+              <td className="py-2 text-xs text-zinc-500">
+                {q.tags.join(', ')}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
       {filtered.length === 0 && (
-        <p className="py-8 text-center text-zinc-500">No questions match your filters.</p>
+        <p className="py-8 text-center text-zinc-500">
+          No questions match your filters.
+        </p>
       )}
     </div>
   )

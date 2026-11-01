@@ -1,4 +1,5 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 
 type Props = {
   direction: 'horizontal' | 'vertical'
@@ -13,7 +14,15 @@ type Props = {
 }
 
 /** Two panes with a draggable divider. `horizontal` places panes side by side. */
-export default function SplitPane({ direction, initial = 50, min = 15, max = 85, first, second, collapseSecondTo }: Props) {
+export default function SplitPane({
+  direction,
+  initial = 50,
+  min = 15,
+  max = 85,
+  first,
+  second,
+  collapseSecondTo,
+}: Props) {
   const [pct, setPct] = useState(initial)
   const container = useRef<HTMLDivElement>(null)
   const horizontal = direction === 'horizontal'
@@ -39,10 +48,17 @@ export default function SplitPane({ direction, initial = 50, min = 15, max = 85,
   }
 
   return (
-    <div ref={container} className={'flex h-full w-full ' + (horizontal ? 'flex-row' : 'flex-col')}>
+    <div
+      ref={container}
+      className={'flex h-full w-full ' + (horizontal ? 'flex-row' : 'flex-col')}
+    >
       <div
         className="min-h-0 min-w-0 overflow-hidden"
-        style={collapseSecondTo ? { flex: 1 } : { flexBasis: `${pct}%`, flexShrink: 0 }}
+        style={
+          collapseSecondTo
+            ? { flex: 1 }
+            : { flexBasis: `${pct}%`, flexShrink: 0 }
+        }
       >
         {first}
       </div>
@@ -56,8 +72,13 @@ export default function SplitPane({ direction, initial = 50, min = 15, max = 85,
         }
       />
       <div
-        className={'min-h-0 min-w-0 overflow-hidden ' + (collapseSecondTo ? '' : 'flex-1')}
-        style={collapseSecondTo ? { flex: `0 0 ${collapseSecondTo}px` } : undefined}
+        className={
+          'min-h-0 min-w-0 overflow-hidden ' +
+          (collapseSecondTo ? '' : 'flex-1')
+        }
+        style={
+          collapseSecondTo ? { flex: `0 0 ${collapseSecondTo}px` } : undefined
+        }
       >
         {second}
       </div>

@@ -14,7 +14,8 @@ export function filterQuestions(
   const needle = q?.trim().toLowerCase()
   return questions.filter((question) => {
     if (difficulty && question.difficulty !== difficulty) return false
-    if (tags?.length && !tags.every((t) => question.tags.includes(t))) return false
+    if (tags?.length && !tags.every((t) => question.tags.includes(t)))
+      return false
     if (needle) {
       const hay = `${question.title}\n${question.description}`.toLowerCase()
       if (!hay.includes(needle)) return false

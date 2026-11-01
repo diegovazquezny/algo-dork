@@ -23,10 +23,16 @@ export function firstFailure(cases: CaseResult[]): number {
 }
 
 /** Parses a custom case typed as a JSON array of arguments. */
-export function parseCustomInput(text: string): { ok: true; input: unknown[] } | { ok: false; error: string } {
+export function parseCustomInput(
+  text: string,
+): { ok: true; input: unknown[] } | { ok: false; error: string } {
   try {
     const v = JSON.parse(text)
-    if (!Array.isArray(v)) return { ok: false, error: 'Input must be a JSON array of arguments, e.g. [[1,2],3]' }
+    if (!Array.isArray(v))
+      return {
+        ok: false,
+        error: 'Input must be a JSON array of arguments, e.g. [[1,2],3]',
+      }
     return { ok: true, input: v }
   } catch (e) {
     return { ok: false, error: `Invalid JSON: ${(e as Error).message}` }

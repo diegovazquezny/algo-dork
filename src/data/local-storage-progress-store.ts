@@ -5,10 +5,8 @@ import {
   emptyProgress,
   questionProgressSchema,
   settingsSchema,
-  type QuestionProgress,
-  type Settings,
-  type Submission,
 } from '#/domain/progress'
+import type { QuestionProgress, Settings, Submission } from '#/domain/progress'
 import type { ProgressStore } from './ports'
 
 const PROGRESS_KEY = 'algo-dork:progress'
@@ -17,7 +15,12 @@ const SETTINGS_KEY = 'algo-dork:settings'
 type Envelope<T> = { version: number; data: T }
 
 export class LocalStorageProgressStore implements ProgressStore {
-  constructor(private readonly storage: Pick<Storage, 'getItem' | 'setItem'> = localStorage) {}
+  constructor(
+    private readonly storage: Pick<
+      Storage,
+      'getItem' | 'setItem'
+    > = localStorage,
+  ) {}
 
   private read<T>(key: string): T | null {
     try {
@@ -54,9 +57,15 @@ export class LocalStorageProgressStore implements ProgressStore {
     return this.readAll()[questionId] ?? emptyProgress()
   }
 
-  private update(questionId: string, fn: (p: QuestionProgress) => QuestionProgress) {
+  private update(
+    questionId: string,
+    fn: (p: QuestionProgress) => QuestionProgress,
+  ) {
     const all = this.readAll()
-    const next = { ...fn(all[questionId] ?? emptyProgress()), updatedAt: Date.now() }
+    const next = {
+      ...fn(all[questionId] ?? emptyProgress()),
+      updatedAt: Date.now(),
+    }
     all[questionId] = next
     this.write(PROGRESS_KEY, all)
     return next

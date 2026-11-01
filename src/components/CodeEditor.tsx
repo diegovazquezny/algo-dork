@@ -1,4 +1,5 @@
-import Editor, { type OnMount } from '@monaco-editor/react'
+import Editor from '@monaco-editor/react'
+import type { OnMount } from '@monaco-editor/react'
 import type { editor } from 'monaco-editor'
 import { useEffect, useRef } from 'react'
 import '#/lib/monaco-setup'
@@ -35,16 +36,23 @@ export default function CodeEditor({
 
   const handleMount: OnMount = (editor, monaco) => {
     editorRef.current = editor
-    editor.addCommand(monaco.KeyMod.Shift | monaco.KeyMod.Alt | monaco.KeyCode.KeyF, () =>
-      cbs.current.onFormatRequest(),
+    editor.addCommand(
+      monaco.KeyMod.Shift | monaco.KeyMod.Alt | monaco.KeyCode.KeyF,
+      () => cbs.current.onFormatRequest(),
     )
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => cbs.current.onSaveOrBlur())
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => cbs.current.onRun())
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () =>
+      cbs.current.onSaveOrBlur(),
+    )
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () =>
+      cbs.current.onRun(),
+    )
     editor.onDidBlurEditorText(() => cbs.current.onSaveOrBlur())
   }
 
   useEffect(() => {
-    editorRef.current?.getModel()?.updateOptions({ tabSize, insertSpaces: true })
+    editorRef.current
+      ?.getModel()
+      ?.updateOptions({ tabSize, insertSpaces: true })
   }, [tabSize, editorRef])
 
   return (

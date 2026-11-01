@@ -6,7 +6,9 @@ import tsWorker from 'monaco-editor/language/typescript/ts.worker?worker'
 // Bundle Monaco locally (no CDN) so the app makes no external network calls.
 self.MonacoEnvironment = {
   getWorker(_: unknown, label: string) {
-    return label === 'typescript' || label === 'javascript' ? new tsWorker() : new editorWorker()
+    return label === 'typescript' || label === 'javascript'
+      ? new tsWorker()
+      : new editorWorker()
   },
 }
 

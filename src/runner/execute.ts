@@ -1,16 +1,20 @@
-import { LOG_CAP_CHARS, type LogEntry, type LogLevel } from './types'
+import { LOG_CAP_CHARS } from './types'
+import type { LogEntry, LogLevel } from './types'
 
-export type RawCaseResult = { ok: true; actual: unknown } | { ok: false; error: string }
+export type RawCaseResult =
+  { ok: true; actual: unknown } | { ok: false; error: string }
 
 /** Turns console arguments into a single display string. */
 export function formatLogArgs(args: unknown[]): string {
   return args
     .map((a) => {
       if (typeof a === 'string') return a
-      if (a instanceof Error) return a.stack ?? `${a.name}: ${a.message}`
+      if (a instanceof Error) return a.stack || `${a.name}: ${a.message}`
       if (a === undefined) return 'undefined'
       if (typeof a === 'function') return `[Function ${a.name || 'anonymous'}]`
       try {
+        // JSON.stringify returns undefined at runtime for symbols, despite its typings.
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         return JSON.stringify(a) ?? String(a)
       } catch {
         return String(a)
@@ -47,16 +51,20 @@ export async function executeCases(
   let used = 0
   let truncated = false
 
-  const emit = (level: LogLevel) => (...args: unknown[]) => {
-    if (truncated) return
-    let text = formatLogArgs(args)
-    if (used + text.length > LOG_CAP_CHARS) {
-      text = text.slice(0, Math.max(0, LOG_CAP_CHARS - used)) + '\n… output truncated'
-      truncated = true
+  const emit =
+    (level: LogLevel) =>
+    (...args: unknown[]) => {
+      if (truncated) return
+      let text = formatLogArgs(args)
+      if (used + text.length > LOG_CAP_CHARS) {
+        text =
+          text.slice(0, Math.max(0, LOG_CAP_CHARS - used)) +
+          '\n… output truncated'
+        truncated = true
+      }
+      used += text.length
+      hooks.onLog({ level, text, caseIndex: current })
     }
-    used += text.length
-    hooks.onLog({ level, text, caseIndex: current })
-  }
   const fakeConsole = {
     log: emit('log'),
     info: emit('info'),
@@ -67,7 +75,6 @@ export async function executeCases(
 
   let fn: unknown
   try {
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
     const factory = new Function(
       'console',
       `${js}\n;return typeof ${functionName} === 'function' ? ${functionName} : undefined`,
@@ -87,7 +94,9 @@ export async function executeCases(
   for (let i = 0; i < inputs.length; i++) {
     current = i
     try {
-      const actual = await (fn as (...a: unknown[]) => unknown)(...structuredClone(inputs[i]))
+      const actual = await (fn as (...a: unknown[]) => unknown)(
+        ...structuredClone(inputs[i]),
+      )
       hooks.onCase(i, { ok: true, actual: toJsonValue(actual) })
     } catch (e) {
       hooks.onCase(i, {

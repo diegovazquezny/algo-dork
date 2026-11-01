@@ -40,8 +40,8 @@ export interface LanguageRunner {
   readonly id: string
   readonly label: string
   readonly monacoLanguage: string
-  run(args: RunArgs): Promise<RunResult>
-  format(code: string, options: FormatOptions): Promise<string>
+  run: (args: RunArgs) => Promise<RunResult>
+  format: (code: string, options: FormatOptions) => Promise<string>
 }
 
 export const DEFAULT_TIMEOUT_MS = 5000

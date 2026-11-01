@@ -1,10 +1,11 @@
-import { questionSchema, type Question } from '#/domain/question'
+import { questionSchema } from '#/domain/question'
+import type { Question } from '#/domain/question'
 import type { QuestionStore } from './ports'
 
-const modules = import.meta.glob('./questions/*.json', {
+const modules = import.meta.glob<unknown>('./questions/*.json', {
   eager: true,
   import: 'default',
-}) as Record<string, unknown>
+})
 
 export class JsonFileQuestionStore implements QuestionStore {
   private readonly questions: Question[]
