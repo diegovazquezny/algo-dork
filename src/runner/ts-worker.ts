@@ -1,15 +1,16 @@
 /// <reference lib="webworker" />
 import { executeCases } from './execute'
+import type { ExecutionSpec } from './types'
 
 export type WorkerRequest = {
   js: string
-  functionName: string
+  spec: ExecutionSpec
   inputs: unknown[][]
 }
 
 self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
-  const { js, functionName, inputs } = event.data
-  await executeCases(js, functionName, inputs, {
+  const { js, spec, inputs } = event.data
+  await executeCases(js, spec, inputs, {
     onLog: (entry) => self.postMessage({ type: 'log', entry }),
     onCase: (index, result) =>
       self.postMessage({ type: 'case', index, result }),

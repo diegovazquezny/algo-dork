@@ -14,6 +14,7 @@ import type { Outcome } from '#/lib/outcome'
 import { useSettings } from '#/lib/settings-context'
 import { getRunner } from '#/runner'
 import { submissionStatus } from '#/runner/judge'
+import { buildSpec } from '#/runner/spec'
 import type { RunnerCase } from '#/runner/types'
 
 const CodeEditor = lazy(() => import('#/components/CodeEditor'))
@@ -178,7 +179,8 @@ function Workspace({
 
     const result = await runner.run({
       code: codeRef.current,
-      functionName: langData.functionName,
+      spec: buildSpec(question, LANGUAGE),
+      comparison: question.comparison,
       cases: [...base, ...custom],
     })
 

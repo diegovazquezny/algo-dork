@@ -51,7 +51,8 @@ export class TypeScriptRunner implements LanguageRunner {
 
   async run({
     code,
-    functionName,
+    spec,
+    comparison = 'exact',
     cases,
     timeoutMs = DEFAULT_TIMEOUT_MS,
   }: RunArgs): Promise<RunResult> {
@@ -91,7 +92,7 @@ export class TypeScriptRunner implements LanguageRunner {
       }
       worker.postMessage({
         js: transpiled.js,
-        functionName,
+        spec,
         inputs: cases.map((c) => c.input),
       })
     })
@@ -99,7 +100,7 @@ export class TypeScriptRunner implements LanguageRunner {
 
     return {
       status: timedOut ? 'time-limit' : 'ok',
-      cases: cases.map((c, i) => judgeCase(c, raw[i])),
+      cases: cases.map((c, i) => judgeCase(c, raw[i], comparison)),
       logs,
       runtimeMs: Math.round(performance.now() - started),
     }

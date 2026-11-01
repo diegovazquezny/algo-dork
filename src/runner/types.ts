@@ -25,9 +25,40 @@ export type RunResult = {
   runtimeMs: number
 }
 
+export type Comparison = 'exact' | 'unordered' | 'unordered-deep'
+
+/** How to invoke the user's code for one question. */
+export type ExecutionSpec = {
+  /** function: call `name(...input)`; class: LeetCode-style [ops, args]; roundtrip: decode(encode(x)). */
+  kind: 'function' | 'class' | 'roundtrip'
+  /** Function name, class name, or (roundtrip) the encoder's name. */
+  name: string
+  /** Roundtrip only: the decoder's name. */
+  decoderName?: string
+  /** Parameter types, see structures.ts. Missing entries are plain JSON. */
+  params: string[]
+  /** Return type, or 'inplace' to compare the (mutated) argument `inplaceArg`. */
+  returns: string
+  inplaceArg: number
+  /** Require the returned graph to share no nodes with the input. */
+  requiresCopy: boolean
+}
+
+export function simpleSpec(name: string): ExecutionSpec {
+  return {
+    kind: 'function',
+    name,
+    params: [],
+    returns: 'json',
+    inplaceArg: 0,
+    requiresCopy: false,
+  }
+}
+
 export type RunArgs = {
   code: string
-  functionName: string
+  spec: ExecutionSpec
+  comparison?: Comparison
   cases: RunnerCase[]
   timeoutMs?: number
 }
