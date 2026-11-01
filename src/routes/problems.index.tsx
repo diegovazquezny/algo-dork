@@ -10,6 +10,7 @@ import {
   PAGE_SIZES,
   allTags,
   filterQuestions,
+  paginate,
 } from '#/lib/filter'
 
 const searchSchema = z.object({
@@ -21,6 +22,7 @@ const searchSchema = z.object({
     .refine((n) => (PAGE_SIZES as readonly number[]).includes(n))
     .optional()
     .catch(undefined),
+  page: z.number().int().min(1).optional().catch(undefined),
 })
 
 export const Route = createFileRoute('/problems/')({
@@ -60,15 +62,20 @@ function ProblemsPage() {
   )
   const selected = search.tags ?? []
   const limit = search.limit ?? DEFAULT_PAGE_SIZE
-  const visible = filtered.slice(0, limit)
+  const {
+    items: visible,
+    page,
+    pageCount,
+  } = paginate(filtered, search.page ?? 1, limit)
 
   const setSearch = (patch: Partial<typeof search>) =>
     navigate({
       search: (prev) => {
-        const next = { ...prev, ...patch }
+        const next = { ...prev, page: undefined, ...patch }
         if (!next.q) delete next.q
         if (!next.tags?.length) delete next.tags
         if (!next.difficulty) delete next.difficulty
+        if (!next.page || next.page === 1) delete next.page
         if (!next.limit || next.limit === DEFAULT_PAGE_SIZE) delete next.limit
         return next
       },
@@ -184,10 +191,28 @@ function ProblemsPage() {
           ))}
         </tbody>
       </table>
-      {filtered.length > visible.length && (
-        <p className="py-3 text-center text-xs text-zinc-500">
-          Showing {visible.length} of {filtered.length}
-        </p>
+      {pageCount > 1 && (
+        <div className="flex items-center justify-center gap-3 py-3 text-sm">
+          <button
+            type="button"
+            disabled={page <= 1}
+            onClick={() => setSearch({ page: page - 1 })}
+            className="rounded border border-zinc-300 px-3 py-1 enabled:hover:bg-zinc-200 disabled:opacity-40 dark:border-zinc-600 dark:enabled:hover:bg-zinc-700"
+          >
+            Prev
+          </button>
+          <span className="text-xs text-zinc-500">
+            Page {page} of {pageCount} ({filtered.length} problems)
+          </span>
+          <button
+            type="button"
+            disabled={page >= pageCount}
+            onClick={() => setSearch({ page: page + 1 })}
+            className="rounded border border-zinc-300 px-3 py-1 enabled:hover:bg-zinc-200 disabled:opacity-40 dark:border-zinc-600 dark:enabled:hover:bg-zinc-700"
+          >
+            Next
+          </button>
+        </div>
       )}
       {filtered.length === 0 && (
         <p className="py-8 text-center text-zinc-500">

@@ -31,3 +31,11 @@ export function allTags(questions: QuestionSummary[]): string[] {
 export const PAGE_SIZES = [25, 50, 75, 100] as const
 export type PageSize = (typeof PAGE_SIZES)[number]
 export const DEFAULT_PAGE_SIZE: PageSize = 25
+
+/** 1-based page, clamped to the valid range. */
+export function paginate<T>(items: T[], page: number, size: number) {
+  const pageCount = Math.max(1, Math.ceil(items.length / size))
+  const current = Math.min(Math.max(1, page), pageCount)
+  const start = (current - 1) * size
+  return { items: items.slice(start, start + size), page: current, pageCount }
+}

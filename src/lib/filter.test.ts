@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   DEFAULT_PAGE_SIZE,
   PAGE_SIZES,
+  paginate,
   allTags,
   filterQuestions,
 } from './filter'
@@ -49,5 +50,22 @@ describe('page sizes', () => {
   it('defaults to 25 and offers 25/50/75/100', () => {
     expect(DEFAULT_PAGE_SIZE).toBe(25)
     expect([...PAGE_SIZES]).toEqual([25, 50, 75, 100])
+  })
+})
+
+describe('paginate', () => {
+  const items = Array.from({ length: 60 }, (_, i) => i)
+  it('slices the requested page', () => {
+    const r = paginate(items, 2, 25)
+    expect(r.items[0]).toBe(25)
+    expect(r.items).toHaveLength(25)
+    expect(r.pageCount).toBe(3)
+  })
+  it('clamps out-of-range pages', () => {
+    expect(paginate(items, 99, 25).page).toBe(3)
+    expect(paginate(items, 0, 25).page).toBe(1)
+  })
+  it('handles empty lists', () => {
+    expect(paginate([], 1, 25)).toEqual({ items: [], page: 1, pageCount: 1 })
   })
 })
