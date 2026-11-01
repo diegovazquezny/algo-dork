@@ -27,3 +27,7 @@ export function filterQuestions(
 export function allTags(questions: QuestionSummary[]): string[] {
   return [...new Set(questions.flatMap((q) => q.tags))].sort()
 }
+
+export const PAGE_SIZES = [25, 50, 75, 100] as const
+export type PageSize = (typeof PAGE_SIZES)[number]
+export const DEFAULT_PAGE_SIZE: PageSize = 25

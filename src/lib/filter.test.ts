@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { allTags, filterQuestions } from './filter'
+import {
+  DEFAULT_PAGE_SIZE,
+  PAGE_SIZES,
+  allTags,
+  filterQuestions,
+} from './filter'
 import type { QuestionSummary } from '#/domain/question'
 
 const qs: QuestionSummary[] = [
@@ -37,5 +42,12 @@ describe('filterQuestions', () => {
   })
   it('lists unique sorted tags', () => {
     expect(allTags(qs)).toEqual(['array', 'hash-table', 'math'])
+  })
+})
+
+describe('page sizes', () => {
+  it('defaults to 25 and offers 25/50/75/100', () => {
+    expect(DEFAULT_PAGE_SIZE).toBe(25)
+    expect([...PAGE_SIZES]).toEqual([25, 50, 75, 100])
   })
 })

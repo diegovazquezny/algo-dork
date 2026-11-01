@@ -5,12 +5,22 @@ import { z } from 'zod'
 import { DIFFICULTIES } from '#/domain/question'
 import type { Difficulty } from '#/domain/question'
 import type { QuestionProgress } from '#/domain/progress'
-import { allTags, filterQuestions } from '#/lib/filter'
+import {
+  DEFAULT_PAGE_SIZE,
+  PAGE_SIZES,
+  allTags,
+  filterQuestions,
+} from '#/lib/filter'
 
 const searchSchema = z.object({
   q: z.string().optional().catch(undefined),
   tags: z.array(z.string()).optional().catch(undefined),
   difficulty: z.enum(DIFFICULTIES).optional().catch(undefined),
+  limit: z
+    .number()
+    .refine((n) => (PAGE_SIZES as readonly number[]).includes(n))
+    .optional()
+    .catch(undefined),
 })
 
 export const Route = createFileRoute('/problems/')({
@@ -49,6 +59,8 @@ function ProblemsPage() {
     [questions, search],
   )
   const selected = search.tags ?? []
+  const limit = search.limit ?? DEFAULT_PAGE_SIZE
+  const visible = filtered.slice(0, limit)
 
   const setSearch = (patch: Partial<typeof search>) =>
     navigate({
@@ -57,6 +69,7 @@ function ProblemsPage() {
         if (!next.q) delete next.q
         if (!next.tags?.length) delete next.tags
         if (!next.difficulty) delete next.difficulty
+        if (!next.limit || next.limit === DEFAULT_PAGE_SIZE) delete next.limit
         return next
       },
       replace: true,
@@ -96,6 +109,18 @@ function ProblemsPage() {
             </option>
           ))}
         </select>
+        <select
+          aria-label="Problems per page"
+          value={limit}
+          onChange={(e) => setSearch({ limit: Number(e.target.value) })}
+          className="rounded border border-zinc-300 bg-transparent px-2 py-1.5 text-sm dark:border-zinc-600 dark:bg-zinc-900"
+        >
+          {PAGE_SIZES.map((n) => (
+            <option key={n} value={n}>
+              Show {n}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-4 flex flex-wrap gap-2">
@@ -127,7 +152,7 @@ function ProblemsPage() {
           </tr>
         </thead>
         <tbody>
-          {filtered.map((q) => (
+          {visible.map((q) => (
             <tr
               key={q.id}
               className="border-b border-zinc-100 hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
@@ -159,6 +184,11 @@ function ProblemsPage() {
           ))}
         </tbody>
       </table>
+      {filtered.length > visible.length && (
+        <p className="py-3 text-center text-xs text-zinc-500">
+          Showing {visible.length} of {filtered.length}
+        </p>
+      )}
       {filtered.length === 0 && (
         <p className="py-8 text-center text-zinc-500">
           No questions match your filters.
