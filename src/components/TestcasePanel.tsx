@@ -1,23 +1,30 @@
 import { useState } from 'react'
+import type { CustomCase } from '#/domain/progress'
 import type { TestCase } from '#/domain/question'
 
 type Props = {
   visibleCases: TestCase[]
-  customInputs: string[]
-  onCustomChange: (inputs: string[]) => void
+  customCases: CustomCase[]
+  onCustomChange: (cases: CustomCase[]) => void
 }
 
 const show = (v: unknown) => JSON.stringify(v)
 
 export default function TestcasePanel({
   visibleCases,
-  customInputs,
+  customCases,
   onCustomChange,
 }: Props) {
   const [active, setActive] = useState(0)
-  const total = visibleCases.length + customInputs.length
+  const total = visibleCases.length + customCases.length
   const idx = Math.min(active, Math.max(0, total - 1))
   const customIdx = idx - visibleCases.length
+  const fieldClass =
+    'w-full rounded border border-zinc-300 bg-transparent p-2 font-mono text-xs outline-none focus:border-amber-500 dark:border-zinc-600'
+  const patchCustom = (patch: Partial<CustomCase>) =>
+    onCustomChange(
+      customCases.map((c, i) => (i === customIdx ? { ...c, ...patch } : c)),
+    )
 
   return (
     <div className="flex h-full flex-col gap-3 overflow-auto p-3 text-sm">
@@ -27,7 +34,7 @@ export default function TestcasePanel({
             Case {i + 1}
           </Tab>
         ))}
-        {customInputs.map((_, i) => (
+        {customCases.map((_, i) => (
           <Tab
             key={`c${i}`}
             active={idx === visibleCases.length + i}
@@ -41,7 +48,7 @@ export default function TestcasePanel({
           title="Add custom case"
           className="rounded px-2 py-0.5 text-zinc-500 hover:bg-zinc-200 dark:hover:bg-zinc-700"
           onClick={() => {
-            onCustomChange([...customInputs, '[]'])
+            onCustomChange([...customCases, { input: '[]', expected: '' }])
             setActive(total)
           }}
         >
@@ -63,27 +70,33 @@ export default function TestcasePanel({
       ) : (
         <div className="space-y-1">
           <p className="text-xs text-zinc-500">
-            Input (JSON array of arguments, e.g. <code>[[2,7],9]</code>). Custom
-            cases show output only.
+            Input (JSON array of arguments, e.g. <code>[[2,7],9]</code>)
           </p>
           <textarea
-            value={customInputs[customIdx] ?? ''}
-            onChange={(e) =>
-              onCustomChange(
-                customInputs.map((v, i) =>
-                  i === customIdx ? e.target.value : v,
-                ),
-              )
-            }
+            aria-label="Custom case input"
+            value={customCases[customIdx]?.input ?? ''}
+            onChange={(e) => patchCustom({ input: e.target.value })}
             spellCheck={false}
             rows={3}
-            className="w-full rounded border border-zinc-300 bg-transparent p-2 font-mono text-xs outline-none focus:border-amber-500 dark:border-zinc-600"
+            className={fieldClass}
+          />
+          <p className="pt-1 text-xs text-zinc-500">
+            Expected (JSON value, e.g. <code>[0,1]</code>). Leave empty to just
+            see the output.
+          </p>
+          <textarea
+            aria-label="Custom case expected"
+            value={customCases[customIdx]?.expected ?? ''}
+            onChange={(e) => patchCustom({ expected: e.target.value })}
+            spellCheck={false}
+            rows={2}
+            className={fieldClass}
           />
           <button
             type="button"
             className="text-xs text-red-500 hover:underline"
             onClick={() =>
-              onCustomChange(customInputs.filter((_, i) => i !== customIdx))
+              onCustomChange(customCases.filter((_, i) => i !== customIdx))
             }
           >
             Remove this case

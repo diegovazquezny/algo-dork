@@ -1,5 +1,10 @@
 import type { Question, QuestionSummary } from '#/domain/question'
-import type { QuestionProgress, Settings, Submission } from '#/domain/progress'
+import type {
+  CustomCase,
+  QuestionProgress,
+  Settings,
+  Submission,
+} from '#/domain/progress'
 
 /** Port: where questions come from. Swap for an HTTP / document-DB adapter later. */
 export interface QuestionStore {
@@ -16,7 +21,7 @@ export interface ProgressStore {
     language: string,
     code: string,
   ) => Promise<void>
-  saveCustomCases: (questionId: string, inputs: string[]) => Promise<void>
+  saveCustomCases: (questionId: string, cases: CustomCase[]) => Promise<void>
   /** Appends a submission, trims history, and updates status. */
   recordSubmission: (
     questionId: string,

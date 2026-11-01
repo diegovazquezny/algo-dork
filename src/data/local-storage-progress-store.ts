@@ -6,7 +6,12 @@ import {
   questionProgressSchema,
   settingsSchema,
 } from '#/domain/progress'
-import type { QuestionProgress, Settings, Submission } from '#/domain/progress'
+import type {
+  CustomCase,
+  QuestionProgress,
+  Settings,
+  Submission,
+} from '#/domain/progress'
 import type { ProgressStore } from './ports'
 
 const PROGRESS_KEY = 'algo-dork:progress'
@@ -78,10 +83,10 @@ export class LocalStorageProgressStore implements ProgressStore {
     }))
   }
 
-  async saveCustomCases(questionId: string, inputs: string[]) {
+  async saveCustomCases(questionId: string, cases: CustomCase[]) {
     this.update(questionId, (p) => ({
       ...p,
-      customCases: inputs.map((input) => ({ input })),
+      customCases: cases,
     }))
   }
 

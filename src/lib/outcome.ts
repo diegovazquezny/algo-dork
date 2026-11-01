@@ -38,3 +38,21 @@ export function parseCustomInput(
     return { ok: false, error: `Invalid JSON: ${(e as Error).message}` }
   }
 }
+
+/** Parses a custom case's optional expected value. Empty text means "not judged". */
+export function parseCustomExpected(
+  text: string | undefined,
+):
+  | { ok: true; hasExpected: false }
+  | { ok: true; hasExpected: true; expected: unknown }
+  | { ok: false; error: string } {
+  if (!text?.trim()) return { ok: true, hasExpected: false }
+  try {
+    return { ok: true, hasExpected: true, expected: JSON.parse(text) }
+  } catch (e) {
+    return {
+      ok: false,
+      error: `Invalid JSON in expected value: ${(e as Error).message}`,
+    }
+  }
+}

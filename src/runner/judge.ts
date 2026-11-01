@@ -10,6 +10,7 @@ export function judgeCase(
   const base = {
     input: c.input,
     hidden: c.hidden,
+    custom: c.custom,
     expected: c.hasExpected ? c.expected : undefined,
   }
   if (!raw)

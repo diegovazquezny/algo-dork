@@ -64,6 +64,17 @@ describe('LocalStorageProgressStore', () => {
     expect(p.submissions).toHaveLength(20)
     expect(p.submissions[0].id).toBe('29')
   })
+  it('persists custom cases with optional expected values', async () => {
+    const store = new LocalStorageProgressStore(memStorage())
+    await store.saveCustomCases('q', [
+      { input: '[1]', expected: '2' },
+      { input: '[3]' },
+    ])
+    expect((await store.get('q')).customCases).toEqual([
+      { input: '[1]', expected: '2' },
+      { input: '[3]' },
+    ])
+  })
   it('returns default settings and persists changes', async () => {
     const store = new LocalStorageProgressStore(memStorage())
     expect((await store.getSettings()).tabSize).toBe(2)

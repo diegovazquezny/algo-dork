@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { firstFailure, parseCustomInput } from './outcome'
+import { firstFailure, parseCustomExpected, parseCustomInput } from './outcome'
 
 describe('outcome helpers', () => {
   it('parses custom input', () => {
@@ -19,5 +19,24 @@ describe('outcome helpers', () => {
       ]),
     ).toBe(2)
     expect(firstFailure([{ input: [], passed: true }])).toBe(-1)
+  })
+
+  it('parses optional custom expected values', () => {
+    expect(parseCustomExpected(undefined)).toEqual({
+      ok: true,
+      hasExpected: false,
+    })
+    expect(parseCustomExpected('  ')).toEqual({ ok: true, hasExpected: false })
+    expect(parseCustomExpected('[0,1]')).toEqual({
+      ok: true,
+      hasExpected: true,
+      expected: [0, 1],
+    })
+    expect(parseCustomExpected('null')).toEqual({
+      ok: true,
+      hasExpected: true,
+      expected: null,
+    })
+    expect(parseCustomExpected('[0,').ok).toBe(false)
   })
 })

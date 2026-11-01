@@ -9,7 +9,7 @@ import TestcasePanel, { Tab } from '#/components/TestcasePanel'
 import type { editor } from 'monaco-editor'
 import type { QuestionProgress, Submission } from '#/domain/progress'
 import type { Question } from '#/domain/question'
-import { parseCustomInput } from '#/lib/outcome'
+import { parseCustomExpected, parseCustomInput } from '#/lib/outcome'
 import type { Outcome } from '#/lib/outcome'
 import { useSettings } from '#/lib/settings-context'
 import { getRunner } from '#/runner'
@@ -68,9 +68,7 @@ function Workspace({
   const [code, setCode] = useState(
     initialProgress.drafts[LANGUAGE] ?? langData.starterCode,
   )
-  const [customInputs, setCustomInputs] = useState(
-    initialProgress.customCases.map((c) => c.input),
-  )
+  const [customCases, setCustomCases] = useState(initialProgress.customCases)
   const [submissions, setSubmissions] = useState(initialProgress.submissions)
   const [status, setStatus] = useState(initialProgress.status)
   const [outcome, setOutcome] = useState<Outcome | null>(null)
@@ -95,8 +93,8 @@ function Workspace({
   }, [code, data, question.id])
 
   useEffect(() => {
-    void data.progress.saveCustomCases(question.id, customInputs)
-  }, [customInputs, data, question.id])
+    void data.progress.saveCustomCases(question.id, customCases)
+  }, [customCases, data, question.id])
 
   /** Replace editor content via an edit so undo history survives. */
   const replaceCode = useCallback((next: string) => {
@@ -153,17 +151,28 @@ function Workspace({
 
     const custom: RunnerCase[] = []
     if (kind === 'run') {
-      for (const text of customInputs) {
-        const parsed = parseCustomInput(text)
-        if (!parsed.ok) {
+      for (const [i, c] of customCases.entries()) {
+        const parsed = parseCustomInput(c.input)
+        const expected = parseCustomExpected(c.expected)
+        const error = !parsed.ok
+          ? parsed.error
+          : !expected.ok
+            ? expected.error
+            : undefined
+        if (error || !parsed.ok || !expected.ok) {
           setOutcome({
             kind,
-            inputError: parsed.error,
+            inputError: `Custom ${i + 1}: ${error}`,
             result: { status: 'ok', cases: [], logs: [], runtimeMs: 0 },
           })
           return
         }
-        custom.push({ input: parsed.input, hasExpected: false })
+        custom.push({
+          input: parsed.input,
+          custom: true,
+          hasExpected: expected.hasExpected,
+          expected: expected.hasExpected ? expected.expected : undefined,
+        })
       }
     }
 
@@ -382,8 +391,8 @@ function Workspace({
           {bottomTab === 'testcase' ? (
             <TestcasePanel
               visibleCases={visibleCases}
-              customInputs={customInputs}
-              onCustomChange={setCustomInputs}
+              customCases={customCases}
+              onCustomChange={setCustomCases}
             />
           ) : (
             <ResultPanel outcome={outcome} running={running} />

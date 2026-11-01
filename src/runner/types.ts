@@ -10,6 +10,8 @@ export type RunnerCase = {
   expected?: unknown
   hasExpected: boolean
   hidden?: boolean
+  /** User-authored case (Run only). */
+  custom?: boolean
 }
 
 export type RunStatus = 'ok' | 'compile-error' | 'time-limit'

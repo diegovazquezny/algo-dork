@@ -43,7 +43,7 @@ export default function ResultPanel({
   const fail = firstFailure(cases)
   const passed = cases.filter((c) => c.passed === true).length
   const judged = cases.filter((c) => c.passed !== null).length
-  const customCount = cases.length - judged
+  const outputOnly = cases.length - judged
   const isSubmit = outcome.kind === 'submit'
   const idx = Math.min(active, cases.length - 1)
   const c = cases[idx] as CaseResult | undefined
@@ -73,8 +73,8 @@ export default function ResultPanel({
         </span>
         <span className="text-xs text-zinc-500">
           {judged > 0 && `${passed} / ${judged} test cases passed · `}
-          {customCount > 0 &&
-            `${customCount} custom case${customCount === 1 ? '' : 's'} (output only) · `}
+          {outputOnly > 0 &&
+            `${outputOnly} output-only case${outputOnly === 1 ? '' : 's'} · `}
           {result.runtimeMs} ms
         </span>
       </div>
@@ -101,8 +101,8 @@ export default function ResultPanel({
             </span>{' '}
             {x.hidden
               ? 'Hidden'
-              : x.passed === null
-                ? `Custom ${cases.slice(0, i + 1).filter((y) => y.passed === null).length}`
+              : x.custom
+                ? `Custom ${cases.slice(0, i + 1).filter((y) => y.custom).length}`
                 : `Case ${i + 1}`}
           </Tab>
         ))}

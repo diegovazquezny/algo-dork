@@ -93,6 +93,11 @@ describe('transpile + judge', () => {
       { ok: true, actual: 2 },
     )
     expect(custom.passed).toBeNull()
+    const judgedCustom = judgeCase(
+      { input: [], expected: 2, hasExpected: true, custom: true },
+      { ok: true, actual: 2 },
+    )
+    expect(judgedCustom).toMatchObject({ passed: true, custom: true })
     expect(submissionStatus('ok', [pass])).toBe('accepted')
     expect(submissionStatus('ok', [pass, fail])).toBe('wrong-answer')
     expect(submissionStatus('time-limit', [])).toBe('time-limit')

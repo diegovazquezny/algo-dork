@@ -7,7 +7,8 @@ export const caseResultSchema = z.object({
   input: z.array(z.unknown()),
   expected: z.unknown().optional(),
   actual: z.unknown().optional(),
-  passed: z.boolean().nullable(), // null => custom case, no expectation
+  passed: z.boolean().nullable(), // null => no expectation, output only
+  custom: z.boolean().optional(),
   hidden: z.boolean().optional(),
   error: z.string().optional(),
 })
@@ -26,7 +27,12 @@ export const submissionSchema = z.object({
 })
 export type Submission = z.infer<typeof submissionSchema>
 
-export const customCaseSchema = z.object({ input: z.string() })
+export const customCaseSchema = z.object({
+  /** JSON array of arguments. */
+  input: z.string(),
+  /** JSON value; empty/absent means output-only (not judged). */
+  expected: z.string().optional(),
+})
 export type CustomCase = z.infer<typeof customCaseSchema>
 
 export const questionProgressSchema = z.object({
